@@ -1,0 +1,78 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "Debug",
+			"command": "C:\\MinGW\\bin\\g++.exe",
+			"args": [
+				"-std=c++17",
+				"-D_GNU_SOURCE",
+				"-g",
+				"${workspaceFolder}\\src\\main.cpp",
+				"${workspaceFolder}\\src\\MyFrame.cpp",
+				"-o",
+				"${workspaceFolder}\\build\\debug\\${fileBasenameNoExtension}.exe",
+				"-I",
+				"${workspaceFolder}\\include",
+				"-I",
+				"C:\\Program Files (x86)\\wxWidgets\\include",
+				"-I",
+				"C:\\Program Files (x86)\\wxWidgets\\lib\\gcc_dll\\mswud",
+				"-L",
+				"C:\\Program Files (x86)\\wxWidgets\\lib\\gcc_dll",
+				"-l",
+				"wxmsw32ud_core",
+				"-l",
+				"wxbase32ud",
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: C:\\MinGW\\bin\\g++.exe"
+		},
+		{
+			"type": "cppbuild",
+			"label": "Release",
+			"command": "C:\\MinGW\\bin\\g++.exe",
+			"args": [
+				"-std=c++17",
+				"-D_GNU_SOURCE",
+				"${workspaceFolder}\\src\\main.cpp",
+				"${workspaceFolder}\\src\\MyFrame.cpp",
+				"-o",
+				"${workspaceFolder}\\build\\release\\${fileBasenameNoExtension}.exe",
+				"-I",
+				"${workspaceFolder}\\include",
+				"-I",
+				"C:\\Program Files (x86)\\wxWidgets\\include",
+				"-I",
+				"C:\\Program Files (x86)\\wxWidgets\\lib\\gcc_dll\\mswu",
+				"-L",
+				"C:\\Program Files (x86)\\wxWidgets\\lib\\gcc_dll",
+				"-l",
+				"wxmsw32u_core",
+				"-l",
+				"wxbase32u",
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: C:\\MinGW\\bin\\g++.exe"
+		}
+	]
+}

@@ -1,0 +1,47 @@
+Check Date -> Check File Type
+
+📁 Work Files
+│
+├── 📁 01_Projects
+│   ├── 📁 Project_Name_1
+│   │   ├── 📁 01_Documents
+│   │   ├── 📁 02_Spreadsheets
+│   │   ├── 📁 03_Presentations
+│   │   └── 📁 04_Images
+│   ├── 📁 Project_Name_2
+│   └── ...
+│
+├── 📁 02_Admin
+│   ├── 📁 Contracts
+│   ├── 📁 Invoices
+│   ├── 📁 Meeting Notes
+│   └── 📁 Templates
+│
+├── 📁 03_Resources
+│   ├── 📁 Brand Assets
+│   ├── 📁 Stock Images
+│   ├── 📁 Guidelines
+│   └── 📁 Reference Material
+│
+├── 📁 04_Archive
+│   └── 📁 [Year or Project Name]
+│
+└── 📁 05_To_Sort
+
+
+📁 Project_Name_1
+│
+├── 📁 01_Documents
+│   └── 📄 Proposal_v1.docx, Meeting_Notes_2025-07-10.docx
+│
+├── 📁 02_Spreadsheets
+│   └── 📊 Budget_Q3.xlsx, Timeline.xlsx
+│
+├── 📁 03_Presentations
+│   └── 📽️ PitchDeck_v2.pptx
+│
+└── 📁 04_Images
+    ├── 📁 RAW
+    ├── 📁 Edited
+    └── 📷 logo.png, screenshot1.jpg
+
