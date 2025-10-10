@@ -11,8 +11,10 @@
 				"-g",
 				"${workspaceFolder}\\src\\main.cpp",
 				"${workspaceFolder}\\src\\MyFrame.cpp",
+				"${workspaceFolder}\\src\\MyTabArt.cpp",
 				"-o",
-				"${workspaceFolder}\\build\\debug\\${fileBasenameNoExtension}.exe",
+			//	"${workspaceFolder}\\build\\debug\\${fileBasenameNoExtension}.exe",
+				"${workspaceFolder}\\build\\debug\\test.exe",
 				"-I",
 				"${workspaceFolder}\\include",
 				"-I",
@@ -25,6 +27,8 @@
 				"wxmsw32ud_core",
 				"-l",
 				"wxbase32ud",
+				"-l",
+				"wxmsw32ud_aui",
 			],
 			"options": {
 				"cwd": "${fileDirname}"
@@ -47,6 +51,7 @@
 				"-D_GNU_SOURCE",
 				"${workspaceFolder}\\src\\main.cpp",
 				"${workspaceFolder}\\src\\MyFrame.cpp",
+				"${workspaceFolder}\\src\\MyTabArt.cpp",
 				"-o",
 				"${workspaceFolder}\\build\\release\\${fileBasenameNoExtension}.exe",
 				"-I",
@@ -61,6 +66,8 @@
 				"wxmsw32u_core",
 				"-l",
 				"wxbase32u",
+				"-l",
+				"wxmsw32u_aui",
 			],
 			"options": {
 				"cwd": "${fileDirname}"
