@@ -14,4 +14,6 @@ class MyRule : public wxPanel
         wxStaticText* descText;
         bool activeState;
         wxAuiNotebook* notebook;
+        void OnSwitch(wxCommandEvent& event);
+        void OnModify(wxCommandEvent& event);
 };

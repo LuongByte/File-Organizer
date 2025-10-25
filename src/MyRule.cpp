@@ -17,6 +17,9 @@ MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_
     wxCheckBox *stateCheck = new wxCheckBox(this, wxID_ANY, " ");
     stateCheck->SetValue(activeState);
     wxButton *modifyRule = new wxButton(this, wxID_ANY, "Modify", wxDefaultPosition , wxSize(120, 40));
+
+    modifyRule->Bind(wxEVT_BUTTON, &MyRule::OnModify, this);
+    stateCheck->Bind(wxEVT_CHECKBOX, &MyRule::OnSwitch, this);
     this->SetFont(ruleFont);
     itemSizer->Add(stateCheck, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL, 10);
     itemSizer->Add(descText, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL, 10);
@@ -26,3 +29,19 @@ MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_
     
 }
 
+void MyRule::OnSwitch(wxCommandEvent& event)
+{
+    activeState = !activeState;
+    if(activeState == true)
+        descText->SetForegroundColour(wxColour(0, 0, 0));
+    else
+        descText->SetForegroundColour(wxColour(255, 0, 0));
+
+    descText->Refresh();
+    descText->Update();
+}
+
+void MyRule::OnModify(wxCommandEvent& event)
+{
+    
+}
