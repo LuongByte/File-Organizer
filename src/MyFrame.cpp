@@ -1,6 +1,7 @@
 #include <MyFrame.h>
 #include <MyTabArt.h>
 #include <MyRule.h>
+#include <MyTab.h>
 #include <wx/wx.h>
 #include <wx/aui/aui.h>
 
@@ -70,6 +71,9 @@ MyFrame::MyFrame()
     plusButton->Bind(wxEVT_BUTTON, std::bind(&MyFrame::OnCreate, this, std::placeholders::_1, home, notebook));
     Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
+
+    MyTab *newTab = new MyTab(notebook, "New Tab");
+    notebook->AddPage(newTab, "New Tab");
 }
 
 void MyFrame::OnCreate(wxCommandEvent& event, wxPanel *parent, wxAuiNotebook *notebook)
