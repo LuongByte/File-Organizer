@@ -12,6 +12,7 @@
 				"${workspaceFolder}\\src\\main.cpp",
 				"${workspaceFolder}\\src\\MyFrame.cpp",
 				"${workspaceFolder}\\src\\MyTabArt.cpp",
+				"${workspaceFolder}\\src\\MyRule.cpp",
 				"-o",
 			//	"${workspaceFolder}\\build\\debug\\${fileBasenameNoExtension}.exe",
 				"${workspaceFolder}\\build\\debug\\test.exe",

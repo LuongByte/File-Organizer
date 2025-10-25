@@ -1,5 +1,6 @@
 #include <MyFrame.h>
 #include <MyTabArt.h>
+#include <MyRule.h>
 #include <wx/wx.h>
 #include <wx/aui/aui.h>
 
@@ -37,10 +38,32 @@ MyFrame::MyFrame()
     notebook->AddPage(home, "Home");
     wxBoxSizer *homeSizer = new wxBoxSizer(wxVERTICAL);
     home->SetSizer(homeSizer);
- 
+
+    wxPanel *plusPanel = new wxPanel(home, wxID_ANY);
+    plusPanel->SetBackgroundColour(wxColour(255, 255, 255));
+    wxButton *plusButton = new wxButton(plusPanel, wxID_ANY, "+", wxDefaultPosition, wxSize(80, 80));
+
+    wxBoxSizer *plusSizer = new wxBoxSizer(wxHORIZONTAL);
+    plusPanel->SetSizer(plusSizer);
+    plusSizer->AddStretchSpacer(1);
+    plusSizer->Add(plusButton, 0, wxALL, 10);
+    plusSizer->AddStretchSpacer(1);
+    homeSizer->Add(plusPanel, 0, wxEXPAND);
+    
+    
+    plusButton->Bind(wxEVT_BUTTON, std::bind(&MyFrame::OnCreate, this, std::placeholders::_1, home, notebook));
     Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
 }
+
+void MyFrame::OnCreate(wxCommandEvent& event, wxPanel *parent, wxAuiNotebook *notebook)
+{
+    MyRule *newRule = new MyRule(parent, notebook);
+    wxBoxSizer *sizer = dynamic_cast<wxBoxSizer*>(parent->GetSizer());
+    sizer->Insert(sizer->GetItemCount() - 1, newRule, 0, wxEXPAND);
+    parent->Layout();
+}
+
 
 void MyFrame::OnExit(wxCommandEvent& event)
 {
