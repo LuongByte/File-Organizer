@@ -39,6 +39,22 @@ MyFrame::MyFrame()
     wxBoxSizer *homeSizer = new wxBoxSizer(wxVERTICAL);
     home->SetSizer(homeSizer);
 
+    wxPanel *headPanel = new wxPanel(home, wxID_ANY);
+    headPanel->SetBackgroundColour(wxColour(100, 100, 100));
+    wxBoxSizer *headSizer = new wxBoxSizer(wxHORIZONTAL);
+    headPanel->SetSizer(headSizer);
+
+    wxPanel *headButPanel = new wxPanel(headPanel, wxID_ANY);
+    wxBoxSizer *headButSizer = new wxBoxSizer(wxHORIZONTAL);
+    headButPanel->SetSizer(headButSizer);
+    wxButton *addCondition = new wxButton(headButPanel, wxID_ANY, "Add Condition", wxDefaultPosition , wxSize(120, 40));
+    
+    
+    headButSizer->Add(addCondition, 0, wxALIGN_LEFT | wxALL, 15);
+    headSizer->Add(headButPanel, 0, wxALIGN_LEFT | wxLEFT, 50);
+    homeSizer->Add(headPanel, 0,  wxEXPAND);
+
+
     wxPanel *plusPanel = new wxPanel(home, wxID_ANY);
     plusPanel->SetBackgroundColour(wxColour(255, 255, 255));
     wxButton *plusButton = new wxButton(plusPanel, wxID_ANY, "+", wxDefaultPosition, wxSize(80, 80));
@@ -50,7 +66,7 @@ MyFrame::MyFrame()
     plusSizer->AddStretchSpacer(1);
     homeSizer->Add(plusPanel, 0, wxEXPAND);
     
-    
+    addCondition->Bind(wxEVT_BUTTON, std::bind(&MyFrame::OnCreate, this, std::placeholders::_1, home, notebook));
     plusButton->Bind(wxEVT_BUTTON, std::bind(&MyFrame::OnCreate, this, std::placeholders::_1, home, notebook));
     Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
