@@ -12,15 +12,15 @@ void MyTabArt::DrawTab(wxDC& dc, wxWindow* wnd, const wxAuiNotebookPage& page, c
 {
     const int padding = 10;
     const int closeSize = 16;
+    const int fixedSize = 200;
 
     wxString title = page.caption;
     wxFont font = dc.GetFont();
     dc.SetFont(font);
     wxSize size = dc.GetTextExtent(title);
 
-    int baseTabWidth = size.x + 2 * padding + (closeState != wxAUI_BUTTON_STATE_HIDDEN ? closeSize + padding : 0);
-    int tabWidth = baseTabWidth * 2;
-    wxRect tabRect(inRect.x, inRect.y, tabWidth, inRect.height * 2);
+
+    wxRect tabRect(inRect.x, inRect.y, fixedSize, inRect.height * 2);
 
     if(outTabRect != nullptr)
         *outTabRect = tabRect;
@@ -41,8 +41,8 @@ void MyTabArt::DrawTab(wxDC& dc, wxWindow* wnd, const wxAuiNotebookPage& page, c
     dc.SetFont(font);
     dc.SetTextForeground(*wxBLACK);
     
+    int textX = tabRect.x + padding;
     int textY = tabRect.y + (inRect.height - size.y)/2;
-    int textX = tabRect.x + size.x * 0.25;
     dc.DrawText(title, textX, textY);
     
     int ind = FindPageIndex(page);
@@ -51,7 +51,7 @@ void MyTabArt::DrawTab(wxDC& dc, wxWindow* wnd, const wxAuiNotebookPage& page, c
         closable = false;
 
     if(closable && closeState != wxAUI_BUTTON_STATE_HIDDEN){
-        wxRect closeRect(tabRect.x + tabRect.width - closeSize - padding, tabRect.y + (inRect.height - closeSize)/2, closeSize, closeSize);
+        wxRect closeRect(tabRect.x + fixedSize - closeSize - padding, tabRect.y + (inRect.height - closeSize)/2, closeSize, closeSize);
 
         if(outButtonRect != nullptr)
             *outButtonRect = closeRect;
