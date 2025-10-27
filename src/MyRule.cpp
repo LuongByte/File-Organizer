@@ -4,6 +4,7 @@
 MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_ANY)
 {
     wxBoxSizer *ruleSizer = new wxBoxSizer(wxVERTICAL);
+    this->tab = nullptr;
     this->notebook = notebook;
     this->activeState = true;
     this->SetSizer(ruleSizer);
@@ -18,7 +19,7 @@ MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_
     stateCheck->SetValue(activeState);
     wxButton *modifyRule = new wxButton(this, wxID_ANY, "Modify", wxDefaultPosition , wxSize(120, 40));
 
-    modifyRule->Bind(wxEVT_BUTTON, &MyRule::OnModify, this);
+    modifyRule->Bind(wxEVT_BUTTON, &MyRule::OnEdit, this);
     stateCheck->Bind(wxEVT_CHECKBOX, &MyRule::OnSwitch, this);
     this->SetFont(ruleFont);
     itemSizer->Add(stateCheck, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL, 10);
@@ -27,6 +28,20 @@ MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_
     itemSizer->Add(modifyRule, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 5);
     ruleSizer->Add(itemSizer, 0, wxEXPAND | wxALL, 5);
     
+}
+
+void MyRule::OnEdit(wxCommandEvent& event)
+{
+    if(tab != nullptr){
+        int ind = notebook->FindPage(tab);
+        notebook->SetSelection(ind);
+    }
+    else{
+        MyTab *newTab = new MyTab(notebook, &tab, &desc[0]);
+        notebook->AddPage(newTab, "New Tab");
+        notebook->SetSelection(notebook->GetPageCount() - 1);
+        tab = newTab;
+    }
 }
 
 void MyRule::OnSwitch(wxCommandEvent& event)
@@ -41,7 +56,7 @@ void MyRule::OnSwitch(wxCommandEvent& event)
     descText->Update();
 }
 
-void MyRule::OnModify(wxCommandEvent& event)
+void MyRule::OnUpdate()
 {
-    
+    descText->SetLabel(desc[0] + "\n" + desc[1] + "\n" + desc[2]);
 }

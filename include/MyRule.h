@@ -1,5 +1,6 @@
 #include <wx/wx.h>
 #include <wx/aui/aui.h>
+#include <MyTab.h>
 #pragma once
 
 
@@ -14,6 +15,7 @@ class MyRule : public wxPanel
         wxStaticText* descText;
         bool activeState;
         wxAuiNotebook* notebook;
+        MyTab *tab;
         void OnSwitch(wxCommandEvent& event);
-        void OnModify(wxCommandEvent& event);
+        void OnEdit(wxCommandEvent& event);
 };

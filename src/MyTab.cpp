@@ -1,11 +1,13 @@
 #include <MyTab.h>
 #include <wx/wx.h>
 
-MyTab::MyTab(wxAuiNotebook* notebook, std::string name) : wxPanel(notebook, wxID_ANY)
+MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name) : wxPanel(notebook, wxID_ANY)
 {
     this->notebook = notebook;
     this->tabName = name;
-    SetName(wxString(tabName));
+    this->selfPtr = ptr;
+    SetName(wxString(*tabName));
+    notebook->SetPageText(notebook->FindPage(this), wxString(*tabName));
     wxBoxSizer *tabSizer = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(tabSizer);
     this->SetFont(GetFont().Scale(3));
@@ -22,6 +24,13 @@ MyTab::MyTab(wxAuiNotebook* notebook, std::string name) : wxPanel(notebook, wxID
     nameSizer->Add(nameBox, 1, wxEXPAND | wxALL, 30);
     
     tabSizer->Add(nameSizer, 0, wxEXPAND | wxALL, 10);
+
+    nameBox->Bind(wxEVT_TEXT, &MyTab::OnName, this);
+}
+
+void MyTab::SetClosed()
+{
+    *selfPtr = nullptr;
 }
 
 void MyTab::OnOpen(wxCommandEvent& event)
@@ -38,4 +47,17 @@ void MyTab::OnName(wxCommandEvent& event)
 {
     wxTextCtrl *textBox = dynamic_cast<wxTextCtrl*>(event.GetEventObject());
     wxString fullName = textBox->GetValue();
+    int ind = notebook->FindPage(this);
+    //printf("%s\n", tabName->c_str());
+    if(fullName == "")
+        fullName = "Rule " + std::to_string(ind);
+
+    SetName(fullName);
+    *tabName = fullName.ToStdString();
+    if(strlen(tabName->c_str()) > 17){
+        *tabName = *tabName + "...";
+    }
+
+    if(strlen(tabName->c_str()) <= 21)
+        notebook->SetPageText(ind, wxString(*tabName));
 }

@@ -11,8 +11,6 @@ MyFrame::MyFrame()
     SetBackgroundColour(wxColour(0, 0, 0));
     Maximize(true);
     wxMenu *menuFile = new wxMenu;
-    menuFile->Append(ID_Hello, "&Hello...\tCtrl-H",
-                     "Help string shown in status bar for this menu item");
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
  
@@ -35,7 +33,7 @@ MyFrame::MyFrame()
     notebook->SetArtProvider(new MyTabArt());
     notebook->SetTabCtrlHeight(70);
 
-    wxPanel *home = new wxPanel(notebook, wxID_ANY); 
+    wxPanel *home = new wxPanel(notebook, ID_HOME_PAGE);
     notebook->AddPage(home, "Home");
     wxBoxSizer *homeSizer = new wxBoxSizer(wxVERTICAL);
     home->SetSizer(homeSizer);
@@ -69,21 +67,41 @@ MyFrame::MyFrame()
     
     addCondition->Bind(wxEVT_BUTTON, std::bind(&MyFrame::OnCreate, this, std::placeholders::_1, home, notebook));
     plusButton->Bind(wxEVT_BUTTON, std::bind(&MyFrame::OnCreate, this, std::placeholders::_1, home, notebook));
-    Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
-    Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
-
-    MyTab *newTab = new MyTab(notebook, "New Tab");
-    notebook->AddPage(newTab, "New Tab");
+    notebook->Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSE, &MyFrame::OnClose, this);
+    notebook->Bind(wxEVT_AUINOTEBOOK_PAGE_CHANGED, &MyFrame::OnSwitch, this);
 }
 
 void MyFrame::OnCreate(wxCommandEvent& event, wxPanel *parent, wxAuiNotebook *notebook)
 {
     MyRule *newRule = new MyRule(parent, notebook);
+    ruleBook.push_back(newRule);
     wxBoxSizer *sizer = dynamic_cast<wxBoxSizer*>(parent->GetSizer());
     sizer->Insert(sizer->GetItemCount() - 1, newRule, 0, wxEXPAND);
     parent->Layout();
 }
 
+void MyFrame::OnClose(wxAuiNotebookEvent& event)
+{
+    wxAuiNotebook *notebook = dynamic_cast<wxAuiNotebook*>(event.GetEventObject());
+    int ind = notebook->GetSelection();
+    if(ind == 0)
+        event.Veto();
+    MyTab *tab = dynamic_cast<MyTab*>(notebook->GetPage(ind));
+    tab->SetClosed();
+}
+
+void MyFrame::OnSwitch(wxAuiNotebookEvent& event)
+{
+    int ind = event.GetSelection();
+    wxAuiNotebook *notebook = dynamic_cast<wxAuiNotebook*>(event.GetEventObject());
+    wxPanel *selected = dynamic_cast<wxPanel*>(notebook->GetPage(ind));
+
+    if(selected->GetId() == ID_HOME_PAGE){
+        for(int i = 0; i < ruleBook.size(); i++)
+            ruleBook[i]->OnUpdate();
+    }
+
+}
 
 void MyFrame::OnExit(wxCommandEvent& event)
 {

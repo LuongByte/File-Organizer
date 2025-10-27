@@ -8,11 +8,14 @@
 class MyTab : public wxPanel
 {
     public:
-        MyTab(wxAuiNotebook* notebook, std::string name);
+        MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name);
+        void SetClosed();
     private:
         wxAuiNotebook* notebook;
         bool activeState;
-        std::string tabName;
+        MyTab** selfPtr;
+        std::string* tabName;
+        wxString fullName;
         void OnOpen(wxCommandEvent& event);
         void OnName(wxCommandEvent& event);
 
