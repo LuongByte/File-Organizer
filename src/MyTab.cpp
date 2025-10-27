@@ -4,7 +4,7 @@
 #include <MyMoveInput.h>
 #include <wx/wx.h>
 
-MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name) : wxPanel(notebook, wxID_ANY)
+MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name) : wxScrolledWindow(notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxHSCROLL)
 {
     this->notebook = notebook;
     this->tabName = name;
@@ -15,6 +15,14 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name) : wxPanel(
     this->SetSizer(tabSizer);
     this->SetFont(GetFont().Scale(3));
     
+    SetScrollRate(10, 10);
+    FitInside();
+
+    Bind(wxEVT_SIZE, [this](wxSizeEvent& event) {
+        this->FitInside();
+        event.Skip();
+    });
+
     wxStaticText *nameDesc = new wxStaticText(this, wxID_ANY, "Name Rule");
     nameDesc->SetForegroundColour(wxColour(255, 255, 255));
     nameDesc->SetFocus();

@@ -5,7 +5,7 @@
 
 
 
-class MyTab : public wxPanel
+class MyTab : public wxScrolledWindow
 {
     public:
         MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name);
