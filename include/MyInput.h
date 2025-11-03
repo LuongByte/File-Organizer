@@ -5,11 +5,12 @@
 class MyInput : public wxBoxSizer
 {
     public:
-        MyInput(wxPanel* panel);
+        MyInput(wxScrolledWindow *window);
         
     protected:
-        int ind;
-        wxPanel* parent;
+        std::vector<wxTextCtrl*> list;
+        wxScrolledWindow* parent;
+        virtual void OnAdd(wxCommandEvent& event);
 
     private:
         void OnDelete(wxCommandEvent& event);

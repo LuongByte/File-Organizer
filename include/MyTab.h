@@ -18,5 +18,4 @@ class MyTab : public wxScrolledWindow
         wxString fullName;
         void OnOpen(wxCommandEvent& event);
         void OnName(wxCommandEvent& event);
-
 };

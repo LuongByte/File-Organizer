@@ -33,24 +33,30 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name) : wxScroll
     wxBoxSizer *fileSizer = new wxBoxSizer(wxHORIZONTAL);
     wxStaticText *fileDesc = new wxStaticText(this, wxID_ANY, "Select Folders");
     fileDesc->SetForegroundColour(wxColour(255, 255, 255));
-    wxPanel *fileContain = new wxPanel(this, wxID_ANY);
+    wxScrolledWindow *fileContain = new wxScrolledWindow(this, wxID_ANY);
+    fileContain->SetScrollRate(10, 10);
     fileContain->SetBackgroundColour(wxColour(255, 255, 255));
+    fileContain->SetMinSize(wxSize(-1, 200));
     MyFileInput *fileContainSizer = new MyFileInput(fileContain);
     fileContain->SetSizer(fileContainSizer);
 
     wxBoxSizer *checkSizer = new wxBoxSizer(wxHORIZONTAL);
     wxStaticText *checkDesc = new wxStaticText(this, wxID_ANY, "Check files");
     checkDesc->SetForegroundColour(wxColour(255, 255, 255));
-    wxPanel *checkContain = new wxPanel(this, wxID_ANY);
+    wxScrolledWindow *checkContain = new wxScrolledWindow(this, wxID_ANY);
+    checkContain->SetScrollRate(10, 10);
     checkContain->SetBackgroundColour(wxColour(255, 255, 255));
+    checkContain->SetMinSize(wxSize(-1, 200));
     MyCheckInput *checkContainSizer = new MyCheckInput(checkContain);
     checkContain->SetSizer(checkContainSizer);
 
     wxBoxSizer *moveSizer = new wxBoxSizer(wxHORIZONTAL);
     wxStaticText *moveDesc = new wxStaticText(this, wxID_ANY, "Move files");
     moveDesc->SetForegroundColour(wxColour(255, 255, 255));
-    wxPanel *moveContain = new wxPanel(this, wxID_ANY);
+    wxScrolledWindow *moveContain = new wxScrolledWindow(this, wxID_ANY);
+    moveContain->SetScrollRate(10, 10);
     moveContain->SetBackgroundColour(wxColour(255, 255, 255));
+    moveContain->SetMinSize(wxSize(-1, 200));
     MyMoveInput *moveContainSizer = new MyMoveInput(moveContain);
     moveContain->SetSizer(moveContainSizer);
     

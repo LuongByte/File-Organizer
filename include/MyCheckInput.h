@@ -5,9 +5,11 @@
 class MyCheckInput : public MyInput
 {
     public:
-        MyCheckInput(wxPanel* parent);
+        MyCheckInput(wxScrolledWindow *window);
         void OnUpdate();
-        
+    
+    protected:
+        void OnAdd(wxCommandEvent &event) override;
     private:
         std::string desc[3];
         wxStaticText* descText;

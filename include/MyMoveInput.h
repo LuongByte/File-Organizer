@@ -6,6 +6,8 @@
 class MyMoveInput : public MyInput
 {
     public:
-        MyMoveInput(wxPanel* parent);
+        MyMoveInput(wxScrolledWindow *window);
+    protected:
+        void OnAdd(wxCommandEvent &event) override;
         
 };

@@ -2,7 +2,10 @@
 #include <MyInput.h>
 
 
-MyInput::MyInput(wxPanel *panel) : wxBoxSizer(wxVERTICAL)
+MyInput::MyInput(wxScrolledWindow *window) : wxBoxSizer(wxVERTICAL)
 {
-    this->parent = panel;
+    this->parent = window;
 }
+
+void MyInput::OnAdd(wxCommandEvent &event)
+{}
