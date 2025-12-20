@@ -74,7 +74,6 @@ MyFrame::MyFrame()
 void MyFrame::OnCreate(wxCommandEvent& event, wxPanel *parent, wxAuiNotebook *notebook)
 {
     MyRule *newRule = new MyRule(parent, notebook);
-    ruleBook.push_back(newRule);
     wxBoxSizer *sizer = dynamic_cast<wxBoxSizer*>(parent->GetSizer());
     sizer->Insert(sizer->GetItemCount() - 1, newRule, 0, wxEXPAND);
     parent->Layout();
@@ -97,8 +96,8 @@ void MyFrame::OnSwitch(wxAuiNotebookEvent& event)
     wxPanel *selected = dynamic_cast<wxPanel*>(notebook->GetPage(ind));
 
     if(selected->GetId() == ID_HOME_PAGE){
-        for(int i = 0; i < ruleBook.size(); i++)
-            ruleBook[i]->OnUpdate();
+        for(int i = 0; i < MyRule::GetBook().size(); i++)
+            MyRule::GetBook()[i]->OnUpdate();
     }
 
 }

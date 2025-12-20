@@ -36,7 +36,8 @@ void MyCheckInput::OnAdd(wxCommandEvent& event)
     wxComboBox *checkButton2 = new wxComboBox(parent, wxID_ANY, wxEmptyString,
                                             wxPoint(10, 10), wxSize(200, 30),
                                             checkOptions2, wxCB_READONLY);
-                                            
+                                   
+    
     wxButton *closeButton = new wxButton(parent, wxID_ANY, "X");
 
     wxBoxSizer *topRowSizer = new wxBoxSizer(wxHORIZONTAL);

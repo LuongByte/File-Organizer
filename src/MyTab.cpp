@@ -4,17 +4,19 @@
 #include <MyMoveInput.h>
 #include <wx/wx.h>
 
-MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name) : wxScrolledWindow(notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxHSCROLL)
+MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager* manager) : wxScrolledWindow(notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxHSCROLL)
 {
     this->notebook = notebook;
     this->tabName = name;
     this->selfPtr = ptr;
+    this->manager = manager;
     SetName(wxString(*tabName));
     notebook->SetPageText(notebook->FindPage(this), wxString(*tabName));
     wxBoxSizer *tabSizer = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(tabSizer);
     this->SetFont(GetFont().Scale(3));
     
+
     SetScrollRate(10, 10);
     FitInside();
 
@@ -37,7 +39,7 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name) : wxScroll
     fileContain->SetScrollRate(10, 10);
     fileContain->SetBackgroundColour(wxColour(255, 255, 255));
     fileContain->SetMinSize(wxSize(-1, 200));
-    MyFileInput *fileContainSizer = new MyFileInput(fileContain);
+    MyFileInput *fileContainSizer = new MyFileInput(fileContain, manager->GetSelectFolder());
     fileContain->SetSizer(fileContainSizer);
 
     wxBoxSizer *checkSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -87,8 +89,13 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name) : wxScroll
 
 void MyTab::SetClosed()
 {
+    for(int i = 0; i < (manager->GetSelectFolder().size()); i++){
+        wxString fullName = manager->GetSelectFolder()[i]->GetValue();
+        printf("%s\n", fullName.ToStdString().c_str());
+        //wxPrintf
+    }
     *selfPtr = nullptr;
-}
+} 
 
 void MyTab::OnOpen(wxCommandEvent& event)
 {

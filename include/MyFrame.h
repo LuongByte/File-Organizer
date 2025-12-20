@@ -10,7 +10,6 @@ public:
  
 private:
     int tabs = 0;
-    std::vector<MyRule*> ruleBook;
     void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnClose(wxAuiNotebookEvent& event);

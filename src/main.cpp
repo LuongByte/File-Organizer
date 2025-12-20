@@ -1,10 +1,12 @@
 #include <wx/wx.h>
 #include <stdio.h>
 #include <iostream>
+#include <thread>
 #include <string>
 #include <filesystem>
 #include <MyFrame.h>
- 
+
+
 class MyApp : public wxApp
 {
 public:

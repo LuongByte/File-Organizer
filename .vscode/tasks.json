@@ -18,6 +18,7 @@
 				"${workspaceFolder}\\src\\MyFileInput.cpp",
 				"${workspaceFolder}\\src\\MyCheckInput.cpp",
 				"${workspaceFolder}\\src\\MyMoveInput.cpp",
+				"${workspaceFolder}\\src\\MyManager.cpp",
 				"-o",
 			//	"${workspaceFolder}\\build\\debug\\${fileBasenameNoExtension}.exe",
 				"${workspaceFolder}\\build\\debug\\test.exe",

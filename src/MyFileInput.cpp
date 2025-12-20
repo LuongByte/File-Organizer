@@ -1,8 +1,9 @@
+#include <vector>
 #include <wx/wx.h>
 #include <MyFileInput.h>
 
 
-MyFileInput::MyFileInput(wxScrolledWindow *window) : MyInput(window)
+MyFileInput::MyFileInput(wxScrolledWindow *window, std::vector<wxTextCtrl*>& v) : MyInput(window), folders(v)
 {
     wxButton *addfileButton = new wxButton(parent, wxID_ANY, "+");
     wxBoxSizer *addButtonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -18,6 +19,7 @@ MyFileInput::MyFileInput(wxScrolledWindow *window) : MyInput(window)
 void MyFileInput::OnAdd(wxCommandEvent& event)
 {
     wxTextCtrl *fileBox = new wxTextCtrl(parent, wxID_ANY, "");
+    folders.push_back(fileBox);
     wxButton *foldButton = new wxButton(parent, wxID_ANY, "...");
     wxBoxSizer *topRowSizer = new wxBoxSizer(wxHORIZONTAL);
     topRowSizer->Add(fileBox, 1, wxEXPAND | wxALL, 5);
