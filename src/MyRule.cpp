@@ -45,17 +45,23 @@ void MyRule::OnDelete(wxCommandEvent& event)
 {
     wxWindow* parent = this->GetParent();
     wxBoxSizer* sizer = dynamic_cast<wxBoxSizer*>(parent->GetSizer());
-    sizer->Detach(this);
-    this->Destroy();
-    parent->Layout();
+    
 
     if(tab != nullptr){
         int ind = notebook->FindPage(tab);
         if(ind != wxNOT_FOUND){
             notebook->DeletePage(ind);
+            tab->SetClosed();
             tab = nullptr;
         }
     }
+    delete manager;
+    manager = nullptr;
+    sizer->Detach(this);
+    auto& book = ruleBook;
+    book.erase(std::remove(book.begin(), book.end(), this), book.end());
+    this->Destroy();
+    parent->Layout();
 }
 void MyRule::OnEdit(wxCommandEvent& event)
 {

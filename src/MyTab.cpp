@@ -89,11 +89,13 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
 
 void MyTab::SetClosed()
 {
-    for(int i = 0; i < (manager->GetSelectFolder().size()); i++){
-        wxString fullName = manager->GetSelectFolder()[i]->GetValue();
-        printf("%s\n", fullName.ToStdString().c_str());
-        //wxPrintf
-    }
+  //  for(int i = 0; i < (manager->GetSelectFolder().size()); i++){
+  //     wxString fullName = manager->GetSelectFolder()[i]->GetValue();
+  //      printf("%s\n", fullName.ToStdString().c_str());
+   // }
+    tabName = nullptr;
+    notebook = nullptr;
+    manager = nullptr;
     *selfPtr = nullptr;
 } 
 
