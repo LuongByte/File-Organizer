@@ -9,6 +9,8 @@ class MyFileInput : public MyInput
     public:
         MyFileInput(wxScrolledWindow *window, std::vector<wxTextCtrl*>& v);
     protected:
-        std::vector<wxTextCtrl*>& folders;
         void OnAdd(wxCommandEvent &event) override;
-};
+    private:
+        std::vector<wxTextCtrl*>& folders;
+        void OnSelect(wxCommandEvent &event);
+}; 

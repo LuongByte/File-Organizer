@@ -1,9 +1,6 @@
 #include <MyFrame.h>
 #include <MyTabArt.h>
-#include <MyRule.h>
 #include <MyTab.h>
-#include <wx/wx.h>
-#include <wx/aui/aui.h>
 
 MyFrame::MyFrame()
     : wxFrame(nullptr, wxID_ANY, "Hello World")
@@ -86,7 +83,6 @@ void MyFrame::OnClose(wxAuiNotebookEvent& event)
     if(ind == 0)
         event.Veto();
     MyTab *tab = dynamic_cast<MyTab*>(notebook->GetPage(ind));
-    tab->SetClosed();
 }
 
 void MyFrame::OnSwitch(wxAuiNotebookEvent& event)

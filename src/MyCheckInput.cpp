@@ -1,9 +1,8 @@
-#include <wx/wx.h>
 #include <wx/combobox.h>
 #include <MyCheckInput.h>
 
 
-MyCheckInput::MyCheckInput(wxScrolledWindow *window) : MyInput(window)
+MyCheckInput::MyCheckInput(wxScrolledWindow *window, std::vector<wxComboBox*>& c1, std::vector<wxComboBox*>& c2) : MyInput(window), firstCond(c1), secondCond(c2)
 {
     wxButton *addfileButton = new wxButton(parent, wxID_ANY, "+");
     wxBoxSizer *addButtonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -38,6 +37,8 @@ void MyCheckInput::OnAdd(wxCommandEvent& event)
                                             checkOptions2, wxCB_READONLY);
                                    
     
+    firstCond.push_back(checkButton);
+    secondCond.push_back(checkButton2);
     wxButton *closeButton = new wxButton(parent, wxID_ANY, "X");
 
     wxBoxSizer *topRowSizer = new wxBoxSizer(wxHORIZONTAL);

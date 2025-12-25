@@ -2,7 +2,6 @@
 #include <MyFileInput.h>
 #include <MyCheckInput.h>
 #include <MyMoveInput.h>
-#include <wx/wx.h>
 
 MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager* manager) : wxScrolledWindow(notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxHSCROLL)
 {
@@ -11,7 +10,6 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     this->selfPtr = ptr;
     this->manager = manager;
     SetName(wxString(*tabName));
-    notebook->SetPageText(notebook->FindPage(this), wxString(*tabName));
     wxBoxSizer *tabSizer = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(tabSizer);
     this->SetFont(GetFont().Scale(3));
@@ -49,7 +47,7 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     checkContain->SetScrollRate(10, 10);
     checkContain->SetBackgroundColour(wxColour(255, 255, 255));
     checkContain->SetMinSize(wxSize(-1, 200));
-    MyCheckInput *checkContainSizer = new MyCheckInput(checkContain);
+    MyCheckInput *checkContainSizer = new MyCheckInput(checkContain, manager->GetFirstCondition(), manager->GetSecondCondition());
     checkContain->SetSizer(checkContainSizer);
 
     wxBoxSizer *moveSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -59,7 +57,7 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     moveContain->SetScrollRate(10, 10);
     moveContain->SetBackgroundColour(wxColour(255, 255, 255));
     moveContain->SetMinSize(wxSize(-1, 200));
-    MyMoveInput *moveContainSizer = new MyMoveInput(moveContain);
+    MyMoveInput *moveContainSizer = new MyMoveInput(moveContain, manager->GetMoveOption(), manager->GetMoveFolder());
     moveContain->SetSizer(moveContainSizer);
     
     nameSizer->Add(nameDesc, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxALL, 50);
@@ -87,17 +85,15 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     nameBox->Bind(wxEVT_TEXT, &MyTab::OnName, this);
 }
 
-void MyTab::SetClosed()
+MyTab::~MyTab()
 {
-  //  for(int i = 0; i < (manager->GetSelectFolder().size()); i++){
-  //     wxString fullName = manager->GetSelectFolder()[i]->GetValue();
-  //      printf("%s\n", fullName.ToStdString().c_str());
-   // }
     tabName = nullptr;
     notebook = nullptr;
     manager = nullptr;
     *selfPtr = nullptr;
-} 
+    printf("Test");
+}
+
 
 void MyTab::OnOpen(wxCommandEvent& event)
 {

@@ -1,9 +1,8 @@
-#include <wx/wx.h>
 #include <wx/combobox.h>
 #include <MyMoveInput.h>
 
 
-MyMoveInput::MyMoveInput(wxScrolledWindow *window) : MyInput(window)
+MyMoveInput::MyMoveInput(wxScrolledWindow *window, std::vector<wxComboBox*>& m1, std::vector<wxTextCtrl*>& m2) : MyInput(window), moveChoice(m1), moveFolder(m2)
 {
     wxButton *addfileButton = new wxButton(parent, wxID_ANY, "+");
     wxBoxSizer *addButtonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -27,10 +26,11 @@ void MyMoveInput::OnAdd(wxCommandEvent& event)
     wxComboBox *checkButton = new wxComboBox(parent, wxID_ANY, wxEmptyString,
                                             wxPoint(10, 10), wxSize(200, 30),
                                             moveOptions, wxCB_READONLY);
-
     wxTextCtrl *fileBox = new wxTextCtrl(parent, wxID_ANY, "");
-    wxButton *foldButton = new wxButton(parent, wxID_ANY, "...");
+    moveChoice.push_back(checkButton);
+    moveFolder.push_back(fileBox);
 
+    wxButton *foldButton = new wxButton(parent, wxID_ANY, "...");
     wxButton *closeButton = new wxButton(parent, wxID_ANY, "X");
 
     wxBoxSizer *topRowSizer = new wxBoxSizer(wxHORIZONTAL);

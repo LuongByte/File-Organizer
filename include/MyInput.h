@@ -1,4 +1,5 @@
 #include <wx/wx.h>
+#include <vector>
 #pragma once
 
 

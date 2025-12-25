@@ -1,5 +1,4 @@
 #include <MyManager.h>
-#include <wx/wx.h>
 
 MyManager::MyManager()
 {
@@ -21,6 +20,16 @@ std::vector<wxComboBox*>& MyManager::GetFirstCondition()
 std::vector<wxComboBox*>& MyManager::GetSecondCondition()
 {
     return second_condition;
+}
+
+std::vector<wxComboBox*>& MyManager::GetMoveOption()
+{
+    return move_options;
+}
+
+std::vector<wxTextCtrl*>& MyManager::GetMoveFolder()
+{
+    return move_folders;
 }
 
 void MyManager::searchFolder()

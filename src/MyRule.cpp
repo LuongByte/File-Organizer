@@ -1,5 +1,4 @@
 #include <MyRule.h>
-#include <wx/wx.h>
 
 std::vector<MyRule*> MyRule::ruleBook;
 
@@ -51,15 +50,13 @@ void MyRule::OnDelete(wxCommandEvent& event)
         int ind = notebook->FindPage(tab);
         if(ind != wxNOT_FOUND){
             notebook->DeletePage(ind);
-            tab->SetClosed();
             tab = nullptr;
         }
     }
     delete manager;
     manager = nullptr;
     sizer->Detach(this);
-    auto& book = ruleBook;
-    book.erase(std::remove(book.begin(), book.end(), this), book.end());
+    ruleBook.erase(std::remove(ruleBook.begin(), ruleBook.end(), this), ruleBook.end());
     this->Destroy();
     parent->Layout();
 }

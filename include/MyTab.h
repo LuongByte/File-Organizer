@@ -9,7 +9,7 @@ class MyTab : public wxScrolledWindow
 {
     public:
         MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager* manager);
-        void SetClosed();
+        ~MyTab();
     private:
         wxAuiNotebook* notebook;
         bool activeState;

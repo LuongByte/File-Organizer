@@ -6,8 +6,11 @@
 class MyMoveInput : public MyInput
 {
     public:
-        MyMoveInput(wxScrolledWindow *window);
+        MyMoveInput(wxScrolledWindow *window, std::vector<wxComboBox*>& m1, std::vector<wxTextCtrl*>& m2);
+
     protected:
         void OnAdd(wxCommandEvent &event) override;
-        
+    private:
+        std::vector<wxComboBox*>& moveChoice;
+        std::vector<wxTextCtrl*>& moveFolder;
 };
