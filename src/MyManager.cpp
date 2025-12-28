@@ -17,7 +17,7 @@ std::vector<wxComboBox*>& MyManager::GetFirstCondition()
     return first_condition;
 }
 
-std::vector<wxComboBox*>& MyManager::GetSecondCondition()
+std::vector<wxTextCtrl*>& MyManager::GetSecondCondition()
 {
     return second_condition;
 }

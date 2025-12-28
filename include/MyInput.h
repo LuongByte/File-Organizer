@@ -9,10 +9,7 @@ class MyInput : public wxBoxSizer
         MyInput(wxScrolledWindow *window);
         
     protected:
-        std::vector<wxTextCtrl*> list;
         wxScrolledWindow* parent;
         virtual void OnAdd(wxCommandEvent& event);
-
-    private:
-        void OnDelete(wxCommandEvent& event);
+        virtual void OnDelete(wxCommandEvent& event);
 };

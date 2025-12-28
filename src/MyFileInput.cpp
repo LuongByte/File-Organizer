@@ -19,17 +19,39 @@ void MyFileInput::OnAdd(wxCommandEvent& event)
     wxTextCtrl *fileBox = new wxTextCtrl(parent, wxID_ANY, "");
     folders.push_back(fileBox);
     wxButton *foldButton = new wxButton(parent, wxID_ANY, "...");
+    wxButton *closeButton = new wxButton(parent, wxID_ANY, "X");
     wxBoxSizer *topRowSizer = new wxBoxSizer(wxHORIZONTAL);
     topRowSizer->Add(fileBox, 1, wxEXPAND | wxALL, 5);
     topRowSizer->Add(foldButton, 0, wxALL, 5);
+    topRowSizer->Add(closeButton, 0, wxALL, 5);
 
     foldButton->SetClientData(fileBox);
     foldButton->Bind(wxEVT_BUTTON, &MyFileInput::OnSelect, this);
+    closeButton->Bind(wxEVT_BUTTON, &MyFileInput::OnDelete, this);
     this->Insert(this->GetItemCount() - 1, topRowSizer, 0, wxEXPAND);
     parent->Layout();
     parent->FitInside();
     parent->Scroll(0, parent->GetScrollRange(wxVERTICAL));
-    list.push_back(fileBox);
+}
+
+void MyFileInput::OnDelete(wxCommandEvent& event)
+{
+  wxButton* button = dynamic_cast<wxButton*>(event.GetEventObject());
+  wxBoxSizer* sizer = dynamic_cast<wxBoxSizer*>(button->GetContainingSizer());
+  wxSizerItemList &list = sizer->GetChildren();
+  for(int i = 0; i < list.size(); i++){
+    if(list[i]->IsWindow() == true){
+      wxWindow* test = list[i]->GetWindow();
+        if(wxTextCtrl* text = wxDynamicCast(test, wxTextCtrl))
+            folders.erase(std::remove(folders.begin(), folders.end(), text), folders.end());
+    }
+  }
+  this->Detach(sizer);
+  sizer->Clear(true);
+  delete sizer;
+  parent->Layout();
+  parent->FitInside();
+  parent->AdjustScrollbars();
 }
 
 void MyFileInput::OnSelect(wxCommandEvent& event)
@@ -40,7 +62,7 @@ void MyFileInput::OnSelect(wxCommandEvent& event)
     if(dirDialog.ShowModal() == wxID_OK){
         wxTextCtrl* textBox = static_cast<wxTextCtrl*>(button->GetClientData());
         wxString path = dirDialog.GetPath();
-        wxLogMessage("Select Folder: %s", path);
+        //wxLogMessage("Select Folder: %s", path);
         textBox->SetValue(path);
     }
     

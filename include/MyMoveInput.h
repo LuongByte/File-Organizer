@@ -10,6 +10,7 @@ class MyMoveInput : public MyInput
 
     protected:
         void OnAdd(wxCommandEvent &event) override;
+        void OnDelete(wxCommandEvent &event) override;
     private:
         std::vector<wxComboBox*>& moveChoice;
         std::vector<wxTextCtrl*>& moveFolder;

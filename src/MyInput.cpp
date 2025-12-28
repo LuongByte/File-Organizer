@@ -7,4 +7,11 @@ MyInput::MyInput(wxScrolledWindow *window) : wxBoxSizer(wxVERTICAL)
 }
 
 void MyInput::OnAdd(wxCommandEvent &event)
-{}
+{
+    
+}
+
+void MyInput::OnDelete(wxCommandEvent &event)
+{
+    
+}

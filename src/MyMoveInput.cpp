@@ -39,9 +39,31 @@ void MyMoveInput::OnAdd(wxCommandEvent& event)
     topRowSizer->Add(foldButton, 0, wxALL, 5);
     topRowSizer->AddStretchSpacer(1);
     topRowSizer->Add(closeButton, 0, wxALL, 5);
+    closeButton->Bind(wxEVT_BUTTON, &MyMoveInput::OnDelete, this);
     this->Insert(this->GetItemCount() - 1, topRowSizer, 0, wxEXPAND);
     parent->Layout();
     parent->FitInside();
     parent->Scroll(0, parent->GetScrollRange(wxVERTICAL));
-    list.push_back(fileBox);
+}
+
+void MyMoveInput::OnDelete(wxCommandEvent& event)
+{
+  wxButton* button = dynamic_cast<wxButton*>(event.GetEventObject());
+  wxBoxSizer* sizer = dynamic_cast<wxBoxSizer*>(button->GetContainingSizer());
+  wxSizerItemList &list = sizer->GetChildren();
+  for(int i = 0; i < list.size(); i++){
+    if(list[i]->IsWindow() == true){
+      wxWindow* test = list[i]->GetWindow();
+      if(wxComboBox* combobox = wxDynamicCast(test, wxComboBox))
+        moveChoice.erase(std::remove(moveChoice.begin(), moveChoice.end(), combobox), moveChoice.end());
+      else if(wxTextCtrl* text = wxDynamicCast(test, wxTextCtrl))
+        moveFolder.erase(std::remove(moveFolder.begin(), moveFolder.end(), text), moveFolder.end());
+    }
+  }
+  this->Detach(sizer);
+  sizer->Clear(true);
+  delete sizer;
+  parent->Layout();
+  parent->FitInside();
+  parent->AdjustScrollbars();
 }
