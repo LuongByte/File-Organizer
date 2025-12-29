@@ -1,5 +1,6 @@
 #include <MyRule.h>
 
+
 std::vector<MyRule*> MyRule::ruleBook;
 
 MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_ANY)

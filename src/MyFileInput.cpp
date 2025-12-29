@@ -36,34 +36,34 @@ void MyFileInput::OnAdd(wxCommandEvent& event)
 
 void MyFileInput::OnDelete(wxCommandEvent& event)
 {
-  wxButton* button = dynamic_cast<wxButton*>(event.GetEventObject());
-  wxBoxSizer* sizer = dynamic_cast<wxBoxSizer*>(button->GetContainingSizer());
-  wxSizerItemList &list = sizer->GetChildren();
-  for(int i = 0; i < list.size(); i++){
-    if(list[i]->IsWindow() == true){
-      wxWindow* test = list[i]->GetWindow();
-        if(wxTextCtrl* text = wxDynamicCast(test, wxTextCtrl))
-            folders.erase(std::remove(folders.begin(), folders.end(), text), folders.end());
+    wxButton* button = dynamic_cast<wxButton*>(event.GetEventObject());
+    wxBoxSizer* sizer = dynamic_cast<wxBoxSizer*>(button->GetContainingSizer());
+    wxSizerItemList &list = sizer->GetChildren();
+    for(int i = 0; i < list.size(); i++){
+      if(list[i]->IsWindow() == true){
+        wxWindow* test = list[i]->GetWindow();
+          if(wxTextCtrl* text = wxDynamicCast(test, wxTextCtrl))
+              folders.erase(std::remove(folders.begin(), folders.end(), text), folders.end());
+      }
     }
-  }
-  this->Detach(sizer);
-  sizer->Clear(true);
-  delete sizer;
-  parent->Layout();
-  parent->FitInside();
-  parent->AdjustScrollbars();
+    this->Detach(sizer);
+    sizer->Clear(true);
+    delete sizer;
+    parent->Layout();
+    parent->FitInside();
+    parent->AdjustScrollbars();
 }
 
 void MyFileInput::OnSelect(wxCommandEvent& event)
 {
     wxButton* button = dynamic_cast<wxButton*>(event.GetEventObject());
     wxDirDialog dirDialog(parent, "Select a Folder", "", wxDD_DEFAULT_STYLE | wxDD_DIR_MUST_EXIST);
-    
+      
     if(dirDialog.ShowModal() == wxID_OK){
-        wxTextCtrl* textBox = static_cast<wxTextCtrl*>(button->GetClientData());
-        wxString path = dirDialog.GetPath();
-        //wxLogMessage("Select Folder: %s", path);
-        textBox->SetValue(path);
+      wxTextCtrl* textBox = static_cast<wxTextCtrl*>(button->GetClientData());
+      wxString path = dirDialog.GetPath();
+      //wxLogMessage("Select Folder: %s", path);
+      textBox->SetValue(path);
     }
     
 }

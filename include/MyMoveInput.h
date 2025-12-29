@@ -14,4 +14,6 @@ class MyMoveInput : public MyInput
     private:
         std::vector<wxComboBox*>& moveChoice;
         std::vector<wxTextCtrl*>& moveFolder;
+        void OnSwitch(wxCommandEvent& event);
+        void OnSelect(wxCommandEvent& event);
 };

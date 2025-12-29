@@ -1,7 +1,7 @@
 #include <wx/wx.h>
 #include <vector>
 #include <MyInput.h>
-
+#include <wx/dateevt.h>
 
 class MyCheckInput : public MyInput
 {
@@ -17,7 +17,6 @@ class MyCheckInput : public MyInput
         std::vector<wxComboBox*>& firstCond;
         std::vector<wxTextCtrl*>& secondCond;
         wxArrayString checkOptions;
-        wxButton *datePicker;
-        void OnEdit(wxCommandEvent& event);
         void OnSwitch(wxCommandEvent& event);
+        void OnSelect(wxDateEvent& event);
 };
