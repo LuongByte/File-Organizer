@@ -91,4 +91,4 @@ void MyCheckInput::OnSelect(wxDateEvent& event)
     wxDateTime date = picker->GetValue();
     wxTextCtrl* text = static_cast<wxTextCtrl*>(picker->GetClientData());
     text->SetValue(date.Format(wxT("%d-%m-%Y")));
-}
+} 

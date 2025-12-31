@@ -65,5 +65,4 @@ void MyFileInput::OnSelect(wxCommandEvent& event)
       //wxLogMessage("Select Folder: %s", path);
       textBox->SetValue(path);
     }
-    
 }

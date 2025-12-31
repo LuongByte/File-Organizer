@@ -3,7 +3,7 @@
 #include <MyTab.h>
 
 MyFrame::MyFrame()
-    : wxFrame(nullptr, wxID_ANY, "Hello World")
+    : wxFrame(nullptr, wxID_ANY, "FolderOrdr")
 {
     SetBackgroundColour(wxColour(0, 0, 0));
     Maximize(true);

@@ -8,7 +8,7 @@ MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_
     wxBoxSizer *ruleSizer = new wxBoxSizer(wxVERTICAL);
     this->tab = nullptr;
     this->notebook = notebook;
-    this->activeState = true;
+    this->activeState = false;
     this->manager = new MyManager();
     this->SetSizer(ruleSizer);
     this->SetBackgroundColour(wxColour(255, 255, 255));
@@ -34,6 +34,8 @@ MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_
     itemSizer->Add(deleteRule, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 5);
     ruleSizer->Add(itemSizer, 0, wxEXPAND | wxALL, 5);
     ruleBook.push_back(this);
+    wxCommandEvent dummyEvent;
+    OnSwitch(dummyEvent);
 }
 
 const std::vector<MyRule*>& MyRule::GetBook()

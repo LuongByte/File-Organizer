@@ -13,7 +13,6 @@ class MyCheckInput : public MyInput
         void OnAdd(wxCommandEvent &event) override;
         void OnDelete(wxCommandEvent &event) override;
     private:
-        std::string desc[3];
         std::vector<wxComboBox*>& firstCond;
         std::vector<wxTextCtrl*>& secondCond;
         wxArrayString checkOptions;
