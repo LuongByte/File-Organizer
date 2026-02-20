@@ -10,6 +10,7 @@ MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_
     this->notebook = notebook;
     this->activeState = false;
     this->manager = new MyManager();
+    this->workerTimer = new wxTimer(this);
     this->SetSizer(ruleSizer);
     this->SetBackgroundColour(wxColour(255, 255, 255));
     this->desc[0] = "New Rule";
@@ -22,6 +23,7 @@ MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_
     stateCheck->SetValue(activeState);
     wxButton *modifyRule = new wxButton(this, wxID_ANY, "Modify", wxDefaultPosition , wxSize(120, 40));
     wxButton *deleteRule = new wxButton(this, wxID_ANY, "Delete", wxDefaultPosition , wxSize(120, 40));
+    Bind(wxEVT_TIMER, &MyRule::OnWorkerTimer, this, workerTimer->GetId());
     modifyRule->Bind(wxEVT_BUTTON, &MyRule::OnEdit, this);
     stateCheck->Bind(wxEVT_CHECKBOX, &MyRule::OnSwitch, this);
     deleteRule->Bind(wxEVT_BUTTON, &MyRule::OnDelete, this);
@@ -34,14 +36,32 @@ MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_
     itemSizer->Add(deleteRule, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 5);
     ruleSizer->Add(itemSizer, 0, wxEXPAND | wxALL, 5);
     ruleBook.push_back(this);
-    wxCommandEvent dummyEvent;
-    OnSwitch(dummyEvent);
+    //wxCommandEvent dummyEvent;
+  //  OnSwitch(dummyEvent);
+    activeState = false;
+    descText->SetForegroundColour(wxColour(255, 0, 0));
+    if(activeState){
+        workerTimer->Start(10);
+    }
 }
 
+MyRule::~MyRule()
+{
+    if(workerTimer)
+    {
+        workerTimer->Stop();
+        delete workerTimer;
+        workerTimer = nullptr;
+    }
+
+    if(manager)
+        delete manager;
+}
 const std::vector<MyRule*>& MyRule::GetBook()
 {
     return ruleBook;
 }
+
 
 void MyRule::OnDelete(wxCommandEvent& event)
 {
@@ -56,8 +76,6 @@ void MyRule::OnDelete(wxCommandEvent& event)
             tab = nullptr;
         }
     }
-    delete manager;
-    manager = nullptr;
     sizer->Detach(this);
     ruleBook.erase(std::remove(ruleBook.begin(), ruleBook.end(), this), ruleBook.end());
     this->Destroy();
@@ -80,13 +98,18 @@ void MyRule::OnEdit(wxCommandEvent& event)
 void MyRule::OnSwitch(wxCommandEvent& event)
 {
     activeState = !activeState;
-    if(activeState == true)
+    if(activeState == true){
         descText->SetForegroundColour(wxColour(0, 0, 0));
-    else
+        if(!workerTimer-> IsRunning())
+            workerTimer->Start(10);
+    }
+    else{
         descText->SetForegroundColour(wxColour(255, 0, 0));
-
+        if(workerTimer->IsRunning())
+            workerTimer->Stop();
+    }
     descText->Refresh();
-    descText->Update();
+  // descText->Update();
 }
 
 void MyRule::OnUpdate()
@@ -94,3 +117,14 @@ void MyRule::OnUpdate()
     descText->SetLabel(desc[0] + "\n" + desc[1] + "\n" + desc[2]);
 }
 
+
+void MyRule::OnWorkerTimer(wxTimerEvent& event)
+{
+
+   // wxLogMessage("Worker running for rule: %s", desc[0]);
+   // wxLogDebug("Worker running");
+    manager->manageFiles();
+   // // You can also update GUI safely here, like:
+    // descText->SetLabel(desc[0] + "\n" + desc[1] + "\n" + desc[2]);
+    // descText->Refresh();
+}

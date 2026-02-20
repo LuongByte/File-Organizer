@@ -2,6 +2,11 @@
 #include <wx/aui/aui.h>
 #include <MyTab.h>
 #include <MyManager.h>
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include <wx/timer.h>
+
 #pragma once
 
 
@@ -9,6 +14,7 @@ class MyRule : public wxPanel
 {
     public:
         MyRule(wxPanel* parent, wxAuiNotebook* notebook);
+        ~MyRule();
         void OnUpdate();
         static const std::vector<MyRule*>& GetBook();
     private:
@@ -19,6 +25,8 @@ class MyRule : public wxPanel
         bool activeState;
         wxAuiNotebook* notebook;
         MyTab *tab;
+        wxTimer* workerTimer;
+        void OnWorkerTimer(wxTimerEvent& event);
         void OnSwitch(wxCommandEvent& event);
         void OnEdit(wxCommandEvent& event);
         void OnDelete(wxCommandEvent& event);

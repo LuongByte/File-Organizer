@@ -3,11 +3,11 @@
 #include <wx/aui/aui.h>
 #include <MyRule.h>
 
+
 class MyFrame : public wxFrame
 {
 public:
     MyFrame();
- 
 private:
     int tabs = 0;
     void OnExit(wxCommandEvent& event);
