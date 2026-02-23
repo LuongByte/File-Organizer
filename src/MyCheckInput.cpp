@@ -2,7 +2,13 @@
 #include <MyCheckInput.h>
 #include <wx/datectrl.h>
 
-MyCheckInput::MyCheckInput(wxScrolledWindow *window, std::vector<wxComboBox*>& c1, std::vector<wxTextCtrl*>& c2) : MyInput(window), firstCond(c1), secondCond(c2)
+struct RowWidgets
+{
+    wxDatePickerCtrl* datePicker;
+    wxTextCtrl* fileType;
+};
+
+MyCheckInput::MyCheckInput(wxScrolledWindow *window, std::vector<wxComboBox*>& c) : MyInput(window), checkCondition(c)
 {
     wxButton *addfileButton = new wxButton(parent, wxID_ANY, "+");
     wxBoxSizer *addButtonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -11,8 +17,8 @@ MyCheckInput::MyCheckInput(wxScrolledWindow *window, std::vector<wxComboBox*>& c
     addButtonSizer->AddStretchSpacer(1);
     this->Add(addButtonSizer, 0, wxEXPAND);
     addfileButton->Bind(wxEVT_BUTTON, &MyCheckInput::OnAdd, this);
-    checkOptions.Add("File Type");
     checkOptions.Add("Date Modified");
+    checkOptions.Add("File Type");
     wxCommandEvent dummyEvent;
     OnAdd(dummyEvent);
     
@@ -23,26 +29,30 @@ void MyCheckInput::OnAdd(wxCommandEvent& event)
     wxComboBox *checkButton = new wxComboBox(parent, wxID_ANY, wxEmptyString,
                                             wxPoint(10, 10), wxSize(300, 60),
                                             checkOptions, wxCB_READONLY);
-    
-    wxTextCtrl* checkBox = new wxTextCtrl(parent, wxID_ANY, "");
-    checkBox->SetMinSize(wxSize(300, 60));
-    //checkBox->SetHint("");
 
-    firstCond.push_back(checkButton);
-    secondCond.push_back(checkBox);
+    
     wxDatePickerCtrl* datePicker = new wxDatePickerCtrl(parent, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize,
                                                         wxDP_DROPDOWN | wxDP_SHOWCENTURY);
+    datePicker->SetMinSize(wxSize(300, 60));
+
+    wxTextCtrl *fileType = new wxTextCtrl(parent, wxID_ANY, "");
+    fileType->SetMinSize(wxSize(300, 60));
+    fileType->SetHint(".png");
+    fileType->Hide();
+
     wxButton *closeButton = new wxButton(parent, wxID_ANY, "X");
 
     wxBoxSizer *topRowSizer = new wxBoxSizer(wxHORIZONTAL);
     topRowSizer->Add(checkButton, 0, wxALL, 5);
-    topRowSizer->Add(checkBox, 0, wxALL, 5);
     topRowSizer->AddStretchSpacer(1);
     topRowSizer->Add(datePicker, 0, wxALL, 5);
+    topRowSizer->Add(fileType, 0, wxALL, 5);
     topRowSizer->Add(closeButton, 0, wxALL, 5);
     
-    datePicker->SetClientData(checkBox);
-    checkButton->SetClientData(datePicker);
+
+    
+    RowWidgets* rowData = new RowWidgets{datePicker, fileType};
+    checkButton->SetClientData(rowData);
     checkButton->Bind(wxEVT_COMBOBOX_CLOSEUP, &MyCheckInput::OnSwitch, this);
     closeButton->Bind(wxEVT_BUTTON, &MyCheckInput::OnDelete, this);
     datePicker->Bind(wxEVT_DATE_CHANGED, &MyCheckInput::OnSelect, this);
@@ -50,6 +60,8 @@ void MyCheckInput::OnAdd(wxCommandEvent& event)
     parent->Layout();
     parent->FitInside();
     parent->Scroll(0, parent->GetScrollRange(wxVERTICAL));
+
+    checkCondition.push_back(checkButton);
 }
 
 void MyCheckInput::OnDelete(wxCommandEvent& event)
@@ -60,15 +72,17 @@ void MyCheckInput::OnDelete(wxCommandEvent& event)
     for(int i = 0; i < list.size(); i++){
       if(list[i]->IsWindow() == true){
         wxWindow* test = list[i]->GetWindow();
-        if(wxComboBox* combobox = wxDynamicCast(test, wxComboBox))
-          firstCond.erase(std::remove(firstCond.begin(), firstCond.end(), combobox), firstCond.end());
-        else if(wxTextCtrl* text = wxDynamicCast(test, wxTextCtrl))
-          secondCond.erase(std::remove(secondCond.begin(), secondCond.end(), text), secondCond.end());
+        if(wxComboBox* combobox = wxDynamicCast(test, wxComboBox)){
+          checkCondition.erase(std::remove(checkCondition.begin(), checkCondition.end(), combobox), checkCondition.end());
+          RowWidgets* data = static_cast<RowWidgets*>(combobox->GetClientData());
+          delete data;
+        }
       }
     }
     this->Detach(sizer);
     sizer->Clear(true);
     delete sizer;
+    
     parent->Layout();
     parent->FitInside();
     parent->AdjustScrollbars();
@@ -77,18 +91,25 @@ void MyCheckInput::OnDelete(wxCommandEvent& event)
 void MyCheckInput::OnSwitch(wxCommandEvent& event)
 {
     wxComboBox* box = dynamic_cast<wxComboBox*>(event.GetEventObject());
-    wxDatePickerCtrl* picker = static_cast<wxDatePickerCtrl*>(box->GetClientData());
+    RowWidgets* rowData = static_cast<RowWidgets*>(box->GetClientData());
     wxString option = box->GetValue();
-    if(option == "File Type")
-      picker->Show(false);
-    else if(option == "Date Modified")
-      picker->Show(true);
+    if(option == "File Type"){
+      rowData->datePicker->Hide();
+      rowData->fileType->Show();
+    }
+    else if(option == "Date Modified"){
+      rowData->fileType->Hide();
+      rowData->datePicker->Show();
+    }
+
+    parent->Layout();
+    parent->FitInside();
 }
 
 void MyCheckInput::OnSelect(wxDateEvent& event)
 {
     wxDatePickerCtrl* picker = dynamic_cast<wxDatePickerCtrl*>(event.GetEventObject());
     wxDateTime date = picker->GetValue();
-    wxTextCtrl* text = static_cast<wxTextCtrl*>(picker->GetClientData());
-    text->SetValue(date.Format(wxT("%d-%m-%Y")));
+    //wxTextCtrl* text = static_cast<wxTextCtrl*>(picker->GetClientData());
+    //text->SetValue(date.Format(wxT("%d-%m-%Y")));
 } 

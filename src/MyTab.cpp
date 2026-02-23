@@ -47,7 +47,7 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     checkContain->SetScrollRate(10, 10);
     checkContain->SetBackgroundColour(wxColour(255, 255, 255));
     checkContain->SetMinSize(wxSize(-1, 200));
-    MyCheckInput *checkContainSizer = new MyCheckInput(checkContain, manager->GetFirstCondition(), manager->GetSecondCondition());
+    MyCheckInput *checkContainSizer = new MyCheckInput(checkContain, manager->GetCondition());
     checkContain->SetSizer(checkContainSizer);
 
     wxBoxSizer *moveSizer = new wxBoxSizer(wxHORIZONTAL);
