@@ -10,8 +10,8 @@ class MyManager
     public:
         MyManager();
         std::vector<wxTextCtrl*>& GetSelectFolder();
-        std::vector<wxTextCtrl*>& GetMoveFolder();
-        std::vector<wxComboBox*>& GetMoveOption();
+        wxString& GetMoveFolder();
+        wxString& GetMoveOption();
         std::vector<wxComboBox*>& GetCondition();
         void manageFiles();
         struct FileCondition
@@ -24,8 +24,8 @@ class MyManager
     private:
         std::vector<wxTextCtrl*> search_folders;
         std::vector<wxComboBox*> check_condition;
-        std::vector<wxComboBox*> move_options;
-        std::vector<wxTextCtrl*> move_folders;
+        wxString move_options;
+        wxString move_folders;
         std::vector<FileCondition> activeConditions;
         std::vector<std::string> searchFolder();
         void checkFile(const std::filesystem::path& testDest);

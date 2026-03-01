@@ -15,8 +15,8 @@ struct RowWidgets
 MyManager::MyManager()
 {
 
+    
 }
-
 
 
 std::vector<wxTextCtrl*>& MyManager::GetSelectFolder()
@@ -29,23 +29,23 @@ std::vector<wxComboBox*>& MyManager::GetCondition()
     return check_condition;
 }
 
-std::vector<wxComboBox*>& MyManager::GetMoveOption()
+wxString& MyManager::GetMoveOption()
 {
     return move_options;
 }
 
-std::vector<wxTextCtrl*>& MyManager::GetMoveFolder()
+wxString& MyManager::GetMoveFolder()
 {
     return move_folders;
 }
 
 void MyManager::manageFiles()
 {
-    fs::path testDest = "C:/Users/Conta/OneDrive/Desktop/Career/Personal Projects/File-Organizer/Move";   
+    fs::path dest = move_options.ToStdString(wxConvUTF8).c_str();   
     std::vector<std::string> folderLocations = searchFolder();
     try{
-        checkFile(testDest);
-        moveFile(folderLocations, testDest);
+        checkFile(dest);
+        moveFile(folderLocations, dest);
     }
     catch(const fs::filesystem_error& e){}
 }
@@ -59,7 +59,7 @@ std::vector<std::string> MyManager::searchFolder()
     return folderLocations;
 }
  
-void MyManager::checkFile(const fs::path& testDest)
+void MyManager::checkFile(const fs::path& dest)
 {
     activeConditions.clear();
     for(const auto&input : check_condition){
@@ -84,9 +84,8 @@ void MyManager::checkFile(const fs::path& testDest)
     }
     
 
-    
-    if(!fs::exists(testDest))
-        fs::create_directories(testDest);
+    if(!fs::exists(dest))
+        fs::create_directories(dest);
 }
 
 bool MyManager::matchesConditions(const fs::path& filePath)
@@ -125,7 +124,7 @@ bool MyManager::matchesConditions(const fs::path& filePath)
     return true;
 }
 
-void MyManager::moveFile(const std::vector<std::string>& folderLocations, const fs::path& testDest)
+void MyManager::moveFile(const std::vector<std::string>& folderLocations, const fs::path& dest)
 {
     for(const auto& folder : folderLocations){
         for(const auto& file : fs::directory_iterator(folder)){
@@ -133,7 +132,7 @@ void MyManager::moveFile(const std::vector<std::string>& folderLocations, const 
             if(fs::is_regular_file(filePath)){
                 if(matchesConditions(filePath) == false)
                     continue;
-                fs::path newLocation = testDest / filePath.filename();
+                fs::path newLocation = dest / filePath.filename();
                 if(fs::exists(newLocation))
                     fs::remove(newLocation);
                 fs::rename(filePath, newLocation);

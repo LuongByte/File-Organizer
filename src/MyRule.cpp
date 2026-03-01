@@ -65,13 +65,19 @@ const std::vector<MyRule*>& MyRule::GetBook()
 
 void MyRule::OnDelete(wxCommandEvent& event)
 {
+    if(workerTimer->IsRunning())
+        workerTimer->Stop();
+
+
     wxWindow* parent = this->GetParent();
     wxBoxSizer* sizer = dynamic_cast<wxBoxSizer*>(parent->GetSizer());
     
-
+    manager->GetSelectFolder().clear();
+    manager->GetCondition().clear();
     if(tab != nullptr){
         int ind = notebook->FindPage(tab);
         if(ind != wxNOT_FOUND){
+        
             notebook->DeletePage(ind);
             tab = nullptr;
         }
@@ -120,11 +126,8 @@ void MyRule::OnUpdate()
 
 void MyRule::OnWorkerTimer(wxTimerEvent& event)
 {
+    if(tab == nullptr)
+        return;
 
-   // wxLogMessage("Worker running for rule: %s", desc[0]);
-   // wxLogDebug("Worker running");
     manager->manageFiles();
-   // // You can also update GUI safely here, like:
-    // descText->SetLabel(desc[0] + "\n" + desc[1] + "\n" + desc[2]);
-    // descText->Refresh();
 }

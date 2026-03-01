@@ -32,6 +32,7 @@ void MyFileInput::OnAdd(wxCommandEvent& event)
     parent->Layout();
     parent->FitInside();
     parent->Scroll(0, parent->GetScrollRange(wxVERTICAL));
+    
 }
 
 void MyFileInput::OnDelete(wxCommandEvent& event)

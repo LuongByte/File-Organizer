@@ -49,14 +49,14 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     checkContain->SetMinSize(wxSize(-1, 200));
     MyCheckInput *checkContainSizer = new MyCheckInput(checkContain, manager->GetCondition());
     checkContain->SetSizer(checkContainSizer);
-
+    
     wxBoxSizer *moveSizer = new wxBoxSizer(wxHORIZONTAL);
     wxStaticText *moveDesc = new wxStaticText(this, wxID_ANY, "Move files");
     moveDesc->SetForegroundColour(wxColour(255, 255, 255));
     wxScrolledWindow *moveContain = new wxScrolledWindow(this, wxID_ANY);
     moveContain->SetScrollRate(10, 10);
     moveContain->SetBackgroundColour(wxColour(255, 255, 255));
-    moveContain->SetMinSize(wxSize(-1, 200));
+    moveContain->SetMinSize(wxSize(-1, 100));
     MyMoveInput *moveContainSizer = new MyMoveInput(moveContain, manager->GetMoveOption(), manager->GetMoveFolder());
     moveContain->SetSizer(moveContainSizer);
     
@@ -81,17 +81,24 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     tabSizer->Add(fileSizer, 0, wxEXPAND | wxALL, 10);
     tabSizer->Add(checkSizer, 0, wxEXPAND | wxALL, 10);
     tabSizer->Add(moveSizer, 0, wxEXPAND | wxALL, 10);
-
+    
     nameBox->Bind(wxEVT_TEXT, &MyTab::OnName, this);
 }
 
 MyTab::~MyTab()
 {
+    if(manager != nullptr)
+    {
+        manager->GetSelectFolder().clear();
+        manager->GetCondition().clear();
+    }
+
+
+    if(selfPtr != nullptr)
+        *selfPtr = nullptr;
     tabName = nullptr;
     notebook = nullptr;
     manager = nullptr;
-    *selfPtr = nullptr;
-    printf("Test");
 }
 
 
@@ -110,7 +117,6 @@ void MyTab::OnName(wxCommandEvent& event)
     wxTextCtrl *textBox = dynamic_cast<wxTextCtrl*>(event.GetEventObject());
     wxString fullName = textBox->GetValue();
     int ind = notebook->FindPage(this);
-    //printf("%s\n", tabName->c_str());
     if(fullName == "")
         fullName = "Rule " + std::to_string(ind);
 
