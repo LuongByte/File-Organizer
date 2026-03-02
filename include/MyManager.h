@@ -13,7 +13,10 @@ class MyManager
         wxString& GetMoveFolder();
         wxString& GetMoveOption();
         std::vector<wxComboBox*>& GetCondition();
+        std::vector<wxString>& GetFileHistory();
         void manageFiles();
+        void OnTabClose();
+        void OnTabOpen();
         struct FileCondition
         {
             std::string type;
@@ -22,13 +25,16 @@ class MyManager
         };
         
     private:
+        bool tabOpen;
         std::vector<wxTextCtrl*> search_folders;
         std::vector<wxComboBox*> check_condition;
+        std::vector<wxString> folder_history;
         wxString move_options;
         wxString move_folders;
         std::vector<FileCondition> activeConditions;
-        std::vector<std::string> searchFolder();
-        void checkFile(const std::filesystem::path& testDest);
-        bool matchesConditions(const std::filesystem::path& filePath);
-        void moveFile(const std::vector<std::string>& folderLocations, const std::filesystem::path& testDest);
+        std::vector<std::string> SearchFolder();
+        void CheckFile(const std::filesystem::path& testDest);
+
+        bool MatchesConditions(const std::filesystem::path& filePath);
+        void MoveFile(std::vector<std::string> folderLocations, const std::filesystem::path& testDest);
 };

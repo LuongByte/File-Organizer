@@ -11,6 +11,7 @@ class MyMoveInput : public MyInput
     protected:
         void OnAdd(wxCommandEvent &event) override;
         void OnDelete(wxCommandEvent &event) override;
+        void OnReopen() override;
     private:
         wxString& moveChoice;
         wxString& moveFolder;

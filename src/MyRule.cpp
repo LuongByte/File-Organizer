@@ -94,8 +94,9 @@ void MyRule::OnEdit(wxCommandEvent& event)
         notebook->SetSelection(ind);
     }
     else{
+        manager->OnTabOpen();
         MyTab *newTab = new MyTab(notebook, &tab, &desc[0], manager);
-        notebook->AddPage(newTab, "New Tab");
+        notebook->AddPage(newTab, desc[0]);
         notebook->SetSelection(notebook->GetPageCount() - 1);
         tab = newTab;
     }

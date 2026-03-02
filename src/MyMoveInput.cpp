@@ -7,9 +7,44 @@ MyMoveInput::MyMoveInput(wxScrolledWindow *window, wxString& m1, wxString& m2) :
     moveOptions.Add("Move To Folder");
     moveOptions.Add("Move To Recycle Bin");
     moveOptions.Add("Completely Delete");
-    wxCommandEvent dummyEvent;
-    OnAdd(dummyEvent);
+    if(moveChoice.empty() == true){
+      wxCommandEvent dummyEvent;
+      OnAdd(dummyEvent);
+    }
+    else
+      OnReopen();
 }
+
+void MyMoveInput::OnReopen()
+{
+    wxComboBox *moveButton = new wxComboBox(parent, wxID_ANY, wxEmptyString,
+                                            wxPoint(10, 10), wxSize(375, 60),
+                                            moveOptions, wxCB_READONLY);
+      
+    moveButton->SetStringSelection(moveChoice);
+
+    wxTextCtrl *fileBox = new wxTextCtrl(parent, wxID_ANY, "");
+    fileBox->SetValue(moveFolder);
+    wxButton *foldButton = new wxButton(parent, wxID_ANY, "...");
+
+    wxBoxSizer *topRowSizer = new wxBoxSizer(wxHORIZONTAL);
+    topRowSizer->Add(moveButton, 0, wxALL, 5);
+    topRowSizer->Add(fileBox, 1, wxEXPAND | wxALL, 5);
+    topRowSizer->AddStretchSpacer(1);
+    topRowSizer->Add(foldButton, 0, wxALL, 5);
+
+    moveButton->SetClientData(foldButton);
+    foldButton->SetClientData(fileBox);
+
+    moveButton->Bind(wxEVT_COMBOBOX_CLOSEUP, &MyMoveInput::OnSwitch, this);
+    foldButton->Bind(wxEVT_BUTTON, &MyMoveInput::OnSelect, this);
+
+
+    this->Add(topRowSizer, 0, wxEXPAND);
+    parent->Layout();
+    parent->FitInside();
+}
+
 
 void MyMoveInput::OnAdd(wxCommandEvent& event)
 {
@@ -34,10 +69,9 @@ void MyMoveInput::OnAdd(wxCommandEvent& event)
     foldButton->Bind(wxEVT_BUTTON, &MyMoveInput::OnSelect, this);
 
     this->Add(topRowSizer, 0, wxEXPAND);
+
     parent->Layout();
     parent->FitInside();
-
-    
 }
 
 
@@ -64,6 +98,8 @@ void MyMoveInput::OnSwitch(wxCommandEvent& event)
       button->Show(false);
       text->Show(false);
     }
+
+    moveChoice = box->GetValue();
 }
 
 void MyMoveInput::OnSelect(wxCommandEvent& event)

@@ -37,7 +37,7 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     fileContain->SetScrollRate(10, 10);
     fileContain->SetBackgroundColour(wxColour(255, 255, 255));
     fileContain->SetMinSize(wxSize(-1, 200));
-    MyFileInput *fileContainSizer = new MyFileInput(fileContain, manager->GetSelectFolder());
+    MyFileInput *fileContainSizer = new MyFileInput(fileContain, manager->GetSelectFolder(), manager->GetFileHistory());
     fileContain->SetSizer(fileContainSizer);
 
     wxBoxSizer *checkSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -89,6 +89,7 @@ MyTab::~MyTab()
 {
     if(manager != nullptr)
     {
+        manager->OnTabClose();
         manager->GetSelectFolder().clear();
         manager->GetCondition().clear();
     }

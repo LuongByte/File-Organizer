@@ -24,6 +24,11 @@ MyCheckInput::MyCheckInput(wxScrolledWindow *window, std::vector<wxComboBox*>& c
     
 }
 
+void MyCheckInput::OnReopen()
+{
+
+}
+
 void MyCheckInput::OnAdd(wxCommandEvent& event)
 {
     wxComboBox *checkButton = new wxComboBox(parent, wxID_ANY, wxEmptyString,

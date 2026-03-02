@@ -12,4 +12,5 @@ class MyInput : public wxBoxSizer
         wxScrolledWindow* parent;
         virtual void OnAdd(wxCommandEvent& event);
         virtual void OnDelete(wxCommandEvent& event);
+        virtual void OnReopen();
 };

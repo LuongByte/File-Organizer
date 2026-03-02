@@ -1,7 +1,7 @@
 #include <MyFileInput.h>
 #include <wx/dirdlg.h>
 
-MyFileInput::MyFileInput(wxScrolledWindow *window, std::vector<wxTextCtrl*>& v) : MyInput(window), folders(v)
+MyFileInput::MyFileInput(wxScrolledWindow *window, std::vector<wxTextCtrl*>& v, std::vector<wxString>& fh) : MyInput(window), folders(v), history(fh)
 {
     wxButton *addfileButton = new wxButton(parent, wxID_ANY, "+");
     wxBoxSizer *addButtonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -11,7 +11,33 @@ MyFileInput::MyFileInput(wxScrolledWindow *window, std::vector<wxTextCtrl*>& v) 
     this->Add(addButtonSizer, 0, wxEXPAND);
     addfileButton->Bind(wxEVT_BUTTON, &MyFileInput::OnAdd, this);
     wxCommandEvent dummyEvent;
-    OnAdd(dummyEvent);
+
+    if(history.empty() != true)
+      OnReopen();
+    else
+      OnAdd(dummyEvent);
+}
+
+void MyFileInput::OnReopen()
+{
+    for(const auto&location : history){
+      wxTextCtrl *fileBox = new wxTextCtrl(parent, wxID_ANY, location);
+      folders.push_back(fileBox);
+      wxButton *foldButton = new wxButton(parent, wxID_ANY, "...");
+      wxButton *closeButton = new wxButton(parent, wxID_ANY, "X");
+      wxBoxSizer *topRowSizer = new wxBoxSizer(wxHORIZONTAL);
+      topRowSizer->Add(fileBox, 1, wxEXPAND | wxALL, 5);
+      topRowSizer->Add(foldButton, 0, wxALL, 5);
+      topRowSizer->Add(closeButton, 0, wxALL, 5);
+
+      foldButton->SetClientData(fileBox);
+      foldButton->Bind(wxEVT_BUTTON, &MyFileInput::OnSelect, this);
+      closeButton->Bind(wxEVT_BUTTON, &MyFileInput::OnDelete, this);
+      this->Insert(this->GetItemCount() - 1, topRowSizer, 0, wxEXPAND);
+      parent->Layout();
+      parent->FitInside();
+      parent->Scroll(0, parent->GetScrollRange(wxVERTICAL));
+    }   
 }
 
 void MyFileInput::OnAdd(wxCommandEvent& event)
@@ -32,7 +58,7 @@ void MyFileInput::OnAdd(wxCommandEvent& event)
     parent->Layout();
     parent->FitInside();
     parent->Scroll(0, parent->GetScrollRange(wxVERTICAL));
-    
+
 }
 
 void MyFileInput::OnDelete(wxCommandEvent& event)
@@ -45,6 +71,7 @@ void MyFileInput::OnDelete(wxCommandEvent& event)
         wxWindow* test = list[i]->GetWindow();
           if(wxTextCtrl* text = wxDynamicCast(test, wxTextCtrl))
               folders.erase(std::remove(folders.begin(), folders.end(), text), folders.end());
+
       }
     }
     this->Detach(sizer);
