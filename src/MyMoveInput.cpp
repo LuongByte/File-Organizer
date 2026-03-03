@@ -1,5 +1,5 @@
 #include <wx/combobox.h>
-#include <MyMoveInput.h>
+#include "MyMoveInput.h"
 
 
 MyMoveInput::MyMoveInput(wxScrolledWindow *window, wxString& m1, wxString& m2) : MyInput(window), moveChoice(m1), moveFolder(m2)

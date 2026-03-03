@@ -3,26 +3,24 @@
 #include <wx/wx.h>
 #include <filesystem>
 #include <string>
-
+#include "CustomTypes.h"
 
 class MyManager
 {
     public:
         MyManager();
+        
         std::vector<wxTextCtrl*>& GetSelectFolder();
         wxString& GetMoveFolder();
         wxString& GetMoveOption();
         std::vector<wxComboBox*>& GetCondition();
         std::vector<wxString>& GetFileHistory();
+        std::vector<FileCondition>& GetCondHistory();
         void manageFiles();
         void OnTabClose();
         void OnTabOpen();
-        struct FileCondition
-        {
-            std::string type;
-            std::string fileExt;
-            wxDateTime date;
-        };
+
+        
         
     private:
         bool tabOpen;
@@ -33,7 +31,7 @@ class MyManager
         wxString move_folders;
         std::vector<FileCondition> activeConditions;
         std::vector<std::string> SearchFolder();
-        void CheckFile(const std::filesystem::path& testDest);
+        void CheckFile();
 
         bool MatchesConditions(const std::filesystem::path& filePath);
         void MoveFile(std::vector<std::string> folderLocations, const std::filesystem::path& testDest);

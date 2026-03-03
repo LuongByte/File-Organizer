@@ -1,5 +1,5 @@
-#include <MyFileInput.h>
 #include <wx/dirdlg.h>
+#include "MyFileInput.h"
 
 MyFileInput::MyFileInput(wxScrolledWindow *window, std::vector<wxTextCtrl*>& v, std::vector<wxString>& fh) : MyInput(window), folders(v), history(fh)
 {

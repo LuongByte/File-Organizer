@@ -1,7 +1,7 @@
 #include <wx/wx.h>
 #include <wx/wxprec.h>
 #include <wx/aui/aui.h>
-#include <MyRule.h>
+#include "MyRule.h"
 
 
 class MyFrame : public wxFrame

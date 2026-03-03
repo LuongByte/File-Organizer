@@ -1,5 +1,5 @@
-#include <wx/aui/auibook.h>
 #include <vector>
+#include <wx/aui/auibook.h>
 
 class MyTabArt : public wxAuiDefaultTabArt
 {

@@ -1,6 +1,6 @@
-#include <MyFrame.h>
-#include <MyTabArt.h>
-#include <MyTab.h>
+#include "MyFrame.h"
+#include "MyTabArt.h"
+#include "MyTab.h"
 
 MyFrame::MyFrame()
     : wxFrame(nullptr, wxID_ANY, "FolderOrdr")

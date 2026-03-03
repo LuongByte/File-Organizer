@@ -1,15 +1,9 @@
-#include <MyManager.h>
 #include <filesystem>
 #include <iostream>
 #include <wx/datectrl.h>
+#include "MyManager.h"
 
 namespace fs = std::filesystem;
-
-struct RowWidgets
-{
-    wxDatePickerCtrl* datePicker;
-    wxTextCtrl* fileType;
-};
 
 
 MyManager::MyManager()
@@ -34,6 +28,11 @@ std::vector<wxString>& MyManager::GetFileHistory()
     return folder_history;
 }
 
+std::vector<FileCondition>& MyManager::GetCondHistory()
+{
+    return activeConditions;
+}
+
 wxString& MyManager::GetMoveOption()
 {
     return move_options;
@@ -49,10 +48,13 @@ wxString& MyManager::GetMoveFolder()
 void MyManager::manageFiles()
 {
     fs::path dest = move_options.ToStdString(wxConvUTF8).c_str();
+
+    if(fs::exists(dest) != true)
+        fs::create_directories(dest);
     if(tabOpen == true){
         std::vector<std::string> folderLocations = SearchFolder();
         try{
-            CheckFile(dest);
+            CheckFile();
             MoveFile(folderLocations, dest);
         }
         catch(const fs::filesystem_error& e){}
@@ -75,7 +77,7 @@ std::vector<std::string> MyManager::SearchFolder()
     return folderLocations;
 }
  
-void MyManager::CheckFile(const fs::path& dest)
+void MyManager::CheckFile()
 {
     activeConditions.clear();
     for(const auto&input : check_condition){
@@ -100,8 +102,7 @@ void MyManager::CheckFile(const fs::path& dest)
     }
     
 
-    if(!fs::exists(dest))
-        fs::create_directories(dest);
+    
 }
 
 bool MyManager::MatchesConditions(const fs::path& filePath)
@@ -164,6 +165,7 @@ void MyManager::OnTabClose()
     for(const auto&input : search_folders){
         folder_history.push_back((input->GetValue()));
     }
+    CheckFile();
 }
 
 

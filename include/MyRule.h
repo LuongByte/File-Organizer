@@ -1,11 +1,11 @@
-#include <wx/wx.h>
-#include <wx/aui/aui.h>
-#include <MyTab.h>
-#include <MyManager.h>
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <wx/wx.h>
+#include <wx/aui/aui.h>
 #include <wx/timer.h>
+#include "MyTab.h"
+#include "MyManager.h"
 
 #pragma once
 

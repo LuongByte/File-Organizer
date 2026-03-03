@@ -2,7 +2,7 @@
 #include <vector>
 #include <wx/wx.h>
 #include <wx/aui/aui.h>
-#include <MyManager.h>
+#include "MyManager.h"
 
 
 class MyTab : public wxScrolledWindow

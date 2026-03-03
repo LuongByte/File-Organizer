@@ -1,7 +1,7 @@
-#include <MyTab.h>
-#include <MyFileInput.h>
-#include <MyCheckInput.h>
-#include <MyMoveInput.h>
+#include "MyTab.h"
+#include "MyFileInput.h"
+#include "MyCheckInput.h"
+#include "MyMoveInput.h"
 
 MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager* manager) : wxScrolledWindow(notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxHSCROLL)
 {
@@ -47,7 +47,7 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     checkContain->SetScrollRate(10, 10);
     checkContain->SetBackgroundColour(wxColour(255, 255, 255));
     checkContain->SetMinSize(wxSize(-1, 200));
-    MyCheckInput *checkContainSizer = new MyCheckInput(checkContain, manager->GetCondition());
+    MyCheckInput *checkContainSizer = new MyCheckInput(checkContain, manager->GetCondition(), manager->GetCondHistory());
     checkContain->SetSizer(checkContainSizer);
     
     wxBoxSizer *moveSizer = new wxBoxSizer(wxHORIZONTAL);

@@ -1,4 +1,4 @@
-#include <MyInput.h>
+#include "MyInput.h"
 
 
 MyInput::MyInput(wxScrolledWindow *window) : wxBoxSizer(wxVERTICAL)

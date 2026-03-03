@@ -1,5 +1,5 @@
 #include <wx/wx.h>
-#include <MyInput.h>
+#include "MyInput.h"
 #pragma once
 
 

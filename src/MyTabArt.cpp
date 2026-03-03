@@ -1,6 +1,6 @@
-#include <MyTabArt.h>
 #include <wx/wx.h>
 #include <wx/aui/aui.h>
+#include "MyTabArt.h"
 
 MyTabArt::MyTabArt()
 {
