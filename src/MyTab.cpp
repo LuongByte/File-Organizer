@@ -22,13 +22,14 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
         this->FitInside();
         event.Skip();
     });
-
+    
     wxStaticText *nameDesc = new wxStaticText(this, wxID_ANY, "Name Rule");
     nameDesc->SetForegroundColour(wxColour(255, 255, 255));
     nameDesc->SetFocus();
     wxTextCtrl *nameBox = new wxTextCtrl(this, wxID_ANY, "");
     wxBoxSizer *nameSizer = new wxBoxSizer(wxHORIZONTAL);
-    nameBox->SetHint("Enter Name ");
+    nameBox->SetHint("Enter Name");
+    nameBox->SetMinSize(wxSize(-1, 20));
 
     wxBoxSizer *fileSizer = new wxBoxSizer(wxHORIZONTAL);
     wxStaticText *fileDesc = new wxStaticText(this, wxID_ANY, "Select Folders");
@@ -54,9 +55,8 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     wxStaticText *moveDesc = new wxStaticText(this, wxID_ANY, "Move files");
     moveDesc->SetForegroundColour(wxColour(255, 255, 255));
     wxScrolledWindow *moveContain = new wxScrolledWindow(this, wxID_ANY);
-    moveContain->SetScrollRate(10, 10);
     moveContain->SetBackgroundColour(wxColour(255, 255, 255));
-    moveContain->SetMinSize(wxSize(-1, 100));
+    moveContain->SetMinSize(wxSize(-1, 50));
     MyMoveInput *moveContainSizer = new MyMoveInput(moveContain, manager->GetMoveOption(), manager->GetMoveFolder());
     moveContain->SetSizer(moveContainSizer);
     
@@ -81,8 +81,10 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     tabSizer->Add(fileSizer, 0, wxEXPAND | wxALL, 10);
     tabSizer->Add(checkSizer, 0, wxEXPAND | wxALL, 10);
     tabSizer->Add(moveSizer, 0, wxEXPAND | wxALL, 10);
-    
     nameBox->Bind(wxEVT_TEXT, &MyTab::OnName, this);
+
+    this->Layout();
+    this->FitInside();
 }
 
 MyTab::~MyTab()
@@ -102,16 +104,6 @@ MyTab::~MyTab()
     manager = nullptr;
 }
 
-
-void MyTab::OnOpen(wxCommandEvent& event)
-{
-    wxDirDialog openDir(NULL, "Select Folder", "", wxDD_DEFAULT_STYLE | wxDD_DIR_MUST_EXIST);
-
-    if(openDir.ShowModal() == wxID_CANCEL)
-        return;
-    else
-        wxString path = openDir.GetPath();
-}
 
 void MyTab::OnName(wxCommandEvent& event)
 {

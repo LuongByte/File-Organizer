@@ -8,6 +8,7 @@ class MyFrame : public wxFrame
 {
 public:
     MyFrame();
+    ~MyFrame();
 private:
     int tabs = 0;
     void OnExit(wxCommandEvent& event);

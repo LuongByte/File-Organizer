@@ -7,19 +7,7 @@ MyFrame::MyFrame()
 {
     SetBackgroundColour(wxColour(0, 0, 0));
     Maximize(true);
-    wxMenu *menuFile = new wxMenu;
-    menuFile->AppendSeparator();
-    menuFile->Append(wxID_EXIT);
- 
-    wxMenu *menuHelp = new wxMenu;
-    menuHelp->Append(wxID_ABOUT);
- 
-    wxMenuBar *menuBar = new wxMenuBar;
-    menuBar->Append(menuFile, "&File");
-    menuBar->Append(menuHelp, "&Help");
-    
- 
-    SetMenuBar( menuBar );
+
  
     CreateStatusBar();
     SetStatusText("Welcome to FolderOrdr!");
@@ -66,6 +54,14 @@ MyFrame::MyFrame()
     plusButton->Bind(wxEVT_BUTTON, std::bind(&MyFrame::OnCreate, this, std::placeholders::_1, home, notebook));
     notebook->Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSE, &MyFrame::OnClose, this);
     notebook->Bind(wxEVT_AUINOTEBOOK_PAGE_CHANGED, &MyFrame::OnSwitch, this);
+}
+
+MyFrame::~MyFrame()
+{
+    for(auto rule : MyRule::GetBook()){
+        if(rule)
+            rule->Disable();
+    }
 }
 
 void MyFrame::OnCreate(wxCommandEvent& event, wxPanel *parent, wxAuiNotebook *notebook)

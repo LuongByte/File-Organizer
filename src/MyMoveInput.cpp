@@ -5,7 +5,6 @@
 MyMoveInput::MyMoveInput(wxScrolledWindow *window, wxString& m1, wxString& m2) : MyInput(window), moveChoice(m1), moveFolder(m2)
 {
     moveOptions.Add("Move To Folder");
-    moveOptions.Add("Move To Recycle Bin");
     moveOptions.Add("Completely Delete");
     if(moveChoice.empty() == true){
       wxCommandEvent dummyEvent;
@@ -22,8 +21,9 @@ void MyMoveInput::OnReopen()
                                             moveOptions, wxCB_READONLY);
       
     moveButton->SetStringSelection(moveChoice);
-
+    
     wxTextCtrl *fileBox = new wxTextCtrl(parent, wxID_ANY, "");
+    fileBox->SetSize(200, -1);
     fileBox->SetValue(moveFolder);
     wxButton *foldButton = new wxButton(parent, wxID_ANY, "...");
 
@@ -51,7 +51,9 @@ void MyMoveInput::OnAdd(wxCommandEvent& event)
     wxComboBox *moveButton = new wxComboBox(parent, wxID_ANY, wxEmptyString,
                                             wxPoint(10, 10), wxSize(375, 60),
                                             moveOptions, wxCB_READONLY);
-                                            
+                                           
+    moveButton->SetSelection(0);
+    moveChoice = moveButton->GetValue();
     wxTextCtrl *fileBox = new wxTextCtrl(parent, wxID_ANY, "");
 
     wxButton *foldButton = new wxButton(parent, wxID_ANY, "...");
@@ -77,9 +79,7 @@ void MyMoveInput::OnAdd(wxCommandEvent& event)
 
 void MyMoveInput::OnDelete(wxCommandEvent& event)
 {
-  //  wxButton* button = dynamic_cast<wxButton*>(event.GetEventObject());
- //   wxBoxSizer* sizer = dynamic_cast<wxBoxSizer*>(button->GetContainingSizer());
-  //  wxSizerItemList &list = sizer->GetChildren();
+
     
 }
 
@@ -110,8 +110,7 @@ void MyMoveInput::OnSelect(wxCommandEvent& event)
     if(dirDialog.ShowModal() == wxID_OK){
       wxTextCtrl* textBox = static_cast<wxTextCtrl*>(button->GetClientData());
       wxString path = dirDialog.GetPath();
-      //wxLogMessage("Select Folder: %s", path);
       textBox->SetValue(path);
-      moveChoice = textBox->GetValue();
+      moveFolder = textBox->GetValue();
     }
 }

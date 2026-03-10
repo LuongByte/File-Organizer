@@ -36,12 +36,11 @@ MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_
     itemSizer->Add(deleteRule, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 5);
     ruleSizer->Add(itemSizer, 0, wxEXPAND | wxALL, 5);
     ruleBook.push_back(this);
-    //wxCommandEvent dummyEvent;
-  //  OnSwitch(dummyEvent);
+
     activeState = false;
     descText->SetForegroundColour(wxColour(255, 0, 0));
     if(activeState){
-        workerTimer->Start(10);
+        workerTimer->Start(1000);
     }
 }
 
@@ -87,6 +86,7 @@ void MyRule::OnDelete(wxCommandEvent& event)
     this->Destroy();
     parent->Layout();
 }
+
 void MyRule::OnEdit(wxCommandEvent& event)
 {
     if(tab != nullptr){
@@ -116,7 +116,6 @@ void MyRule::OnSwitch(wxCommandEvent& event)
             workerTimer->Stop();
     }
     descText->Refresh();
-  // descText->Update();
 }
 
 void MyRule::OnUpdate()
@@ -127,8 +126,5 @@ void MyRule::OnUpdate()
 
 void MyRule::OnWorkerTimer(wxTimerEvent& event)
 {
-    if(tab == nullptr)
-        return;
-
     manager->manageFiles();
 }

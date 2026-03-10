@@ -17,6 +17,5 @@ class MyTab : public wxScrolledWindow
         std::string* tabName;
         wxString fullName;
         MyManager* manager;
-        void OnOpen(wxCommandEvent& event);
         void OnName(wxCommandEvent& event);
 };

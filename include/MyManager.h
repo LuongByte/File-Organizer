@@ -20,8 +20,6 @@ class MyManager
         void OnTabClose();
         void OnTabOpen();
 
-        
-        
     private:
         bool tabOpen;
         std::vector<wxTextCtrl*> search_folders;
@@ -32,7 +30,7 @@ class MyManager
         std::vector<FileCondition> activeConditions;
         std::vector<std::string> SearchFolder();
         void CheckFile();
-
         bool MatchesConditions(const std::filesystem::path& filePath);
         void MoveFile(std::vector<std::string> folderLocations, const std::filesystem::path& testDest);
+        void DeleteFile(std::vector<std::string> folderLocations);
 };

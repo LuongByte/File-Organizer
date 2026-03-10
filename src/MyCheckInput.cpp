@@ -29,7 +29,7 @@ void MyCheckInput::OnReopen()
                                               wxPoint(10, 10), wxSize(300, 60),
                                               checkOptions, wxCB_READONLY);
 
-      
+      checkButton->SetSelection(0);
       wxDatePickerCtrl* datePicker = new wxDatePickerCtrl(parent, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize,
                                                           wxDP_DROPDOWN | wxDP_SHOWCENTURY);
       datePicker->SetMinSize(wxSize(300, 60));
@@ -39,7 +39,6 @@ void MyCheckInput::OnReopen()
       fileType->SetMinSize(wxSize(300, 60));
       fileType->SetHint(".png");
       fileType->Hide();
-
       
         
       wxButton *closeButton = new wxButton(parent, wxID_ANY, "X");
@@ -82,7 +81,8 @@ void MyCheckInput::OnAdd(wxCommandEvent& event)
                                             wxPoint(10, 10), wxSize(300, 60),
                                             checkOptions, wxCB_READONLY);
 
-    
+                                  
+    checkButton->SetSelection(0);
     wxDatePickerCtrl* datePicker = new wxDatePickerCtrl(parent, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize,
                                                         wxDP_DROPDOWN | wxDP_SHOWCENTURY);
     datePicker->SetMinSize(wxSize(300, 60));
@@ -100,8 +100,6 @@ void MyCheckInput::OnAdd(wxCommandEvent& event)
     topRowSizer->Add(datePicker, 0, wxALL, 5);
     topRowSizer->Add(fileType, 0, wxALL, 5);
     topRowSizer->Add(closeButton, 0, wxALL, 5);
-    
-
     
     RowWidgets* rowData = new RowWidgets{datePicker, fileType};
     checkButton->SetClientData(rowData);

@@ -9,7 +9,6 @@ namespace fs = std::filesystem;
 MyManager::MyManager()
 {
     tabOpen = false;
-    
 }
 
 
@@ -44,35 +43,45 @@ wxString& MyManager::GetMoveFolder()
 }
 
 
-
 void MyManager::manageFiles()
-{
-    fs::path dest = move_options.ToStdString(wxConvUTF8).c_str();
-
-    if(fs::exists(dest) != true)
-        fs::create_directories(dest);
+{   
+    fs::path dest = move_folders.ToStdString(wxConvUTF8).c_str();
     if(tabOpen == true){
         std::vector<std::string> folderLocations = SearchFolder();
         try{
+            if(fs::exists(dest) != true && move_options.ToStdString(wxConvUTF8) != "Completely Delete")
+                fs::create_directories(dest);
             CheckFile();
-            MoveFile(folderLocations, dest);
+            if(move_options.ToStdString(wxConvUTF8) == "Move To Folder")
+                MoveFile(folderLocations, dest);
+            else if(move_options.ToStdString(wxConvUTF8) == "Completely Delete")
+                DeleteFile(folderLocations);
         }
         catch(const fs::filesystem_error& e){}
     }
     else{
         std::vector<std::string> folderLocations;
-        for(const auto&input : folder_history){
-            folderLocations.push_back(input.ToStdString(wxConvUTF8));
-        }   
-        MoveFile(folderLocations, dest);
+        try{
+            if(fs::exists(dest) != true && move_options.ToStdString(wxConvUTF8) != "Completely Delete")
+                fs::create_directories(dest);
+            for(const auto&input : folder_history)
+                folderLocations.push_back(input.ToStdString(wxConvUTF8));
+            if(move_options.ToStdString(wxConvUTF8) == "Move To Folder")
+                MoveFile(folderLocations, dest);
+            else if(move_options.ToStdString(wxConvUTF8) == "Completely Delete")
+                DeleteFile(folderLocations);
+        }
+        catch(const fs::filesystem_error& e){}        
     }
 }
 
 std::vector<std::string> MyManager::SearchFolder()
 {   
     std::vector<std::string> folderLocations;
+    folder_history.clear();
     for(const auto&input : search_folders){
         folderLocations.push_back((input->GetValue()).ToStdString(wxConvUTF8));
+        folder_history.push_back((input->GetValue()));
     }   
     return folderLocations;
 }
@@ -100,9 +109,6 @@ void MyManager::CheckFile()
             activeConditions.push_back(condition);
         }
     }
-    
-
-    
 }
 
 bool MyManager::MatchesConditions(const fs::path& filePath)
@@ -150,6 +156,7 @@ void MyManager::MoveFile(const std::vector<std::string> folderLocations, const f
                 if(MatchesConditions(filePath) == false)
                     continue;
                 fs::path newLocation = dest / filePath.filename();
+
                 if(fs::exists(newLocation))
                     fs::remove(newLocation);
                 fs::rename(filePath, newLocation);
@@ -158,14 +165,24 @@ void MyManager::MoveFile(const std::vector<std::string> folderLocations, const f
     }
 }
 
+
+void MyManager::DeleteFile(std::vector<std::string> folderLocations)
+{
+    for(const auto& folder : folderLocations){
+        for(const auto& file : fs::directory_iterator(folder)){
+            const fs::path& filePath = file.path();
+            if(fs::is_regular_file(filePath)){
+                if(MatchesConditions(filePath) == false)
+                    continue;
+                fs::remove(filePath);
+            }
+        }
+    }
+}
+
 void MyManager::OnTabClose()
 {
     tabOpen = false;
-    folder_history.clear();
-    for(const auto&input : search_folders){
-        folder_history.push_back((input->GetValue()));
-    }
-    CheckFile();
 }
 
 
