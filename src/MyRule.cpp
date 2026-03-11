@@ -13,9 +13,9 @@ MyRule::MyRule(wxPanel *parent, wxAuiNotebook* notebook) : wxPanel(parent, wxID_
     this->workerTimer = new wxTimer(this);
     this->SetSizer(ruleSizer);
     this->SetBackgroundColour(wxColour(255, 255, 255));
-    this->desc[0] = "New Rule";
-    this->desc[1] = "Line 2";
-    this->desc[2] = "Line 3";
+    this->desc[0] = " ";
+    this->desc[1] = "New Rule";
+    this->desc[2] = " ";
     this->descText = new wxStaticText(this, wxID_ANY, desc[0] + "\n" + desc[1] + "\n" + desc[2]);
     wxFont ruleFont(15, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
     wxBoxSizer *itemSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -95,8 +95,8 @@ void MyRule::OnEdit(wxCommandEvent& event)
     }
     else{
         manager->OnTabOpen();
-        MyTab *newTab = new MyTab(notebook, &tab, &desc[0], manager);
-        notebook->AddPage(newTab, desc[0]);
+        MyTab *newTab = new MyTab(notebook, &tab, &desc[1], manager);
+        notebook->AddPage(newTab, desc[1]);
         notebook->SetSelection(notebook->GetPageCount() - 1);
         tab = newTab;
     }

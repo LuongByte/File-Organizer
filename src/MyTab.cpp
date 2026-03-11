@@ -28,7 +28,10 @@ MyTab::MyTab(wxAuiNotebook* notebook, MyTab **ptr, std::string* name, MyManager*
     nameDesc->SetFocus();
     wxTextCtrl *nameBox = new wxTextCtrl(this, wxID_ANY, "");
     wxBoxSizer *nameSizer = new wxBoxSizer(wxHORIZONTAL);
-    nameBox->SetHint("Enter Name");
+    if(name->empty() == true)
+        nameBox->SetHint("Enter Name");
+    else
+        nameBox->SetHint(wxString::FromUTF8(name->c_str()));
     nameBox->SetMinSize(wxSize(-1, 20));
 
     wxBoxSizer *fileSizer = new wxBoxSizer(wxHORIZONTAL);
